@@ -1,0 +1,11 @@
+# Proposed configuration only; no Netlify site settings have been changed.
+# Default application mode is preview. Legal/payment/private-intake activation is separate.
+[build]
+  command = "python3 tools/build_site.py"
+  publish = "dist"
+
+[dev]
+  command = "python3 tools/preview_server.py"
+  targetPort = 8765
+  port = 8888
+  framework = "#custom"
