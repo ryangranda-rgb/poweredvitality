@@ -1,275 +1,279 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8" />
-<meta name="viewport" content="width=device-width, initial-scale=1.0" />
-<title>Powered Vitality — Built Right. No Shortcuts.</title>
-<meta name="description" content="Faith-driven coaching for Christian men who want to train, steward their body, and build the discipline to follow through. Natural training science, clinical-level programming, real structure." />
-<link rel="preconnect" href="https://fonts.googleapis.com" />
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-<link href="https://fonts.googleapis.com/css2?family=Barlow:wght@300;400;500;600&family=Barlow+Condensed:wght@400;500;600&family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;1,300;1,400&display=swap" rel="stylesheet" />
-<style>
-  :root{
-    --bg:#0d0d0d; --panel:#111111; --text:#f5f2eb; --gold:#d4a017;
-    --taupe:#888070; --gray:#b0a898; --line:rgba(255,255,255,0.06);
-    --serif:"Cormorant Garamond",serif; --sans:"Barlow",sans-serif; --cond:"Barlow Condensed",sans-serif;
-  }
-  *{margin:0;padding:0;box-sizing:border-box}
-  html{scroll-behavior:smooth}
-  body{background:var(--bg);color:var(--text);font-family:var(--sans);font-weight:300;line-height:1.6;-webkit-font-smoothing:antialiased}
-  .wrap{max-width:1180px;margin:0 auto;padding:0 28px}
-  .eyebrow{font-family:var(--cond);text-transform:uppercase;letter-spacing:.28em;font-size:.78rem;color:var(--gold);font-weight:500}
-  .muted{color:var(--gray)}
-  h1,h2,h3{font-family:var(--serif);font-weight:300;line-height:1.05;letter-spacing:.01em}
-  h2{font-size:clamp(2.2rem,5vw,3.6rem)}
-  em{font-style:italic;color:var(--gold)}
-  a{color:inherit;text-decoration:none}
-  .btn{display:inline-block;font-family:var(--cond);text-transform:uppercase;letter-spacing:.14em;font-weight:600;font-size:.9rem;padding:15px 30px;border:1px solid var(--gold);transition:.2s}
-  .btn-solid{background:var(--gold);color:#0d0d0d}
-  .btn-solid:hover{background:transparent;color:var(--gold)}
-  .btn-ghost{background:transparent;color:var(--text);border-color:var(--line)}
-  .btn-ghost:hover{border-color:var(--gold);color:var(--gold)}
-
-  /* NAV */
-  nav{position:sticky;top:0;z-index:50;background:rgba(13,13,13,.85);backdrop-filter:blur(10px);border-bottom:1px solid var(--line)}
-  nav .wrap{display:flex;align-items:center;justify-content:space-between;height:74px}
-  .logo{font-family:var(--cond);text-transform:uppercase;letter-spacing:.2em;font-weight:600;font-size:1.05rem}
-  .logo span{color:var(--gold)}
-
-  /* HERO */
-  header.hero{padding:110px 0 90px;border-bottom:1px solid var(--line);position:relative;overflow:hidden}
-  header.hero::after{content:"";position:absolute;right:-200px;top:-100px;width:600px;height:600px;background:radial-gradient(circle,rgba(212,160,23,.10),transparent 65%);pointer-events:none}
-  .hero h1{font-size:clamp(3.2rem,9vw,6rem);margin:22px 0 26px}
-  .hero p.sub{font-size:1.18rem;max-width:620px;color:var(--gray)}
-  .hero .cta{margin-top:36px;display:flex;gap:16px;flex-wrap:wrap}
-  .scripture{margin-top:42px;font-family:var(--serif);font-style:italic;font-size:1.15rem;color:var(--taupe);border-left:2px solid var(--gold);padding-left:18px;max-width:520px}
-
-  /* BADGES */
-  .badges{border-bottom:1px solid var(--line);padding:30px 0}
-  .badges .wrap{display:flex;flex-wrap:wrap;gap:14px 40px;justify-content:space-between}
-  .badge{font-family:var(--cond);text-transform:uppercase;letter-spacing:.16em;font-size:.82rem;color:var(--gray)}
-  .badge b{color:var(--gold);font-weight:600}
-
-  section{padding:92px 0;border-bottom:1px solid var(--line)}
-  .sec-label{margin-bottom:18px}
-  .lead{font-size:1.12rem;color:var(--gray);max-width:680px;margin-top:22px}
-  .pull{font-family:var(--serif);font-style:italic;font-size:clamp(1.5rem,3vw,2.1rem);color:var(--text);margin:40px 0 0;max-width:760px;line-height:1.3}
-  .pull span{color:var(--gold)}
-
-  /* ABOUT stats */
-  .stats{display:grid;grid-template-columns:repeat(4,1fr);gap:24px;margin-top:54px}
-  .stat .n{font-family:var(--serif);font-size:2.6rem;color:var(--gold);line-height:1}
-  .stat .l{font-family:var(--cond);text-transform:uppercase;letter-spacing:.14em;font-size:.78rem;color:var(--gray);margin-top:8px}
-
-  /* GRID cards */
-  .grid{display:grid;grid-template-columns:repeat(3,1fr);gap:1px;background:var(--line);border:1px solid var(--line);margin-top:50px}
-  .card{background:var(--bg);padding:38px 30px}
-  .card .num{font-family:var(--serif);color:var(--gold);font-size:1.5rem}
-  .card h3{font-size:1.5rem;margin:14px 0 12px}
-  .card p{color:var(--gray);font-size:.98rem}
-
-  /* TIERS */
-  .tiers{display:grid;grid-template-columns:repeat(3,1fr);gap:20px;margin-top:50px}
-  .tier{background:var(--panel);border:1px solid var(--line);padding:38px 30px;display:flex;flex-direction:column}
-  .tier.featured{border-color:var(--gold)}
-  .tier .tag{font-family:var(--cond);text-transform:uppercase;letter-spacing:.16em;font-size:.74rem;color:var(--gold)}
-  .tier .name{font-family:var(--serif);font-size:2rem;margin:6px 0 10px}
-  .tier .price{font-family:var(--serif);font-size:3rem;color:var(--text);line-height:1}
-  .tier .per{font-family:var(--cond);text-transform:uppercase;letter-spacing:.12em;font-size:.74rem;color:var(--taupe);margin-bottom:24px}
-  .tier ul{list-style:none;margin:0 0 30px;flex:1}
-  .tier li{padding:9px 0;border-bottom:1px solid var(--line);font-size:.95rem;color:var(--gray)}
-  .tier li::before{content:"—";color:var(--gold);margin-right:10px}
-  .ribbon{font-family:var(--cond);text-transform:uppercase;letter-spacing:.16em;font-size:.7rem;color:#0d0d0d;background:var(--gold);display:inline-block;padding:4px 12px;margin-bottom:14px}
-
-  /* PROCESS */
-  .steps{display:grid;grid-template-columns:repeat(3,1fr);gap:30px;margin-top:50px}
-  .step .num{font-family:var(--serif);font-size:3rem;color:rgba(212,160,23,.5);line-height:1}
-  .step h3{font-size:1.4rem;margin:10px 0 12px}
-  .step p{color:var(--gray);font-size:.98rem}
-
-  /* GUARANTEE / FINAL */
-  .center{text-align:center}
-  .center .lead{margin:22px auto 0}
-  .final{padding:100px 0}
-  .final h2{font-size:clamp(2.4rem,6vw,4rem)}
-
-  /* FOOTER */
-  footer{padding:54px 0 40px;background:#0a0a0a}
-  footer .top{display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:18px;border-bottom:1px solid var(--line);padding-bottom:26px}
-  footer .links{display:flex;flex-wrap:wrap;gap:22px}
-  footer .links a{font-family:var(--cond);text-transform:uppercase;letter-spacing:.12em;font-size:.8rem;color:var(--gray)}
-  footer .links a:hover{color:var(--gold)}
-  footer .tag{font-family:var(--cond);text-transform:uppercase;letter-spacing:.2em;color:var(--gold);font-size:.85rem}
-  footer .copy{margin-top:24px;font-size:.82rem;color:var(--taupe)}
-
-  @media(max-width:880px){
-    .stats{grid-template-columns:repeat(2,1fr)}
-    .grid,.tiers,.steps{grid-template-columns:1fr}
-    nav .cta-nav{display:none}
-  }
-</style>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Powered Vitality | Faith-Centered Online Fitness Coaching</title>
+  <meta name="description" content="Restart fitness with personal coaching from Ryan Granda. Build strength, work toward fat loss, and grow in confidence with training, nutrition habits, and weekly accountability. Founding rate: $199/month." />
+  <meta property="og:title" content="Powered Vitality — Start Again. Build Confidence." />
+  <meta property="og:description" content="Faith-centered online fitness coaching with Ryan Granda. Personal training, practical nutrition habits, and weekly accountability. $199/month founding rate." />
+  <meta property="og:type" content="website" />
+  <meta property="og:url" content="https://poweredvitality.netlify.app/" />
+  <meta name="theme-color" content="#0d0d0d" />
+  <link rel="canonical" href="https://poweredvitality.netlify.app/" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Barlow:wght@400;500;600&family=Barlow+Condensed:wght@400;500;600&family=Cormorant+Garamond:ital,wght@400;500;600;1,400;1,500&display=swap" rel="stylesheet" />
+  <style>
+    :root{--bg:#0d0d0d;--panel:#141411;--text:#f5f2eb;--gold:#d4a017;--muted:#b7afa1;--line:rgba(245,242,235,.13);--serif:"Cormorant Garamond",Georgia,serif;--sans:"Barlow",Arial,sans-serif;--cond:"Barlow Condensed",Arial,sans-serif}
+    *{box-sizing:border-box;margin:0;padding:0}
+    html{scroll-behavior:smooth;scroll-padding-top:92px}
+    body{background:var(--bg);color:var(--text);font:400 17px/1.65 var(--sans);-webkit-font-smoothing:antialiased}
+    a{color:inherit;text-decoration:none}
+    a:focus-visible,summary:focus-visible{outline:3px solid var(--gold);outline-offset:6px}
+    a.text-link{text-decoration:underline;text-underline-offset:4px}
+    a.text-link:hover{color:var(--gold)}
+    .wrap{width:min(100% - 56px,1120px);margin-inline:auto}
+    .eyebrow{font:600 .8rem/1.5 var(--cond);letter-spacing:.22em;text-transform:uppercase;color:var(--gold)}
+    h1,h2,h3{font-family:var(--serif);font-weight:400;line-height:1.08}
+    h1{font-size:clamp(3.25rem,6vw,5rem);letter-spacing:-.025em}
+    h2{font-size:clamp(2.3rem,4.4vw,3.7rem);letter-spacing:-.015em}
+    h3{font-size:1.7rem}
+    em{color:var(--gold);font-weight:400}
+    p{max-width:65ch}
+    .muted,.lead{color:var(--muted)}
+    .lead{font-size:1.13rem;margin-top:22px;max-width:630px}
+    .btn{display:inline-flex;justify-content:center;align-items:center;min-height:50px;padding:13px 25px;border:1px solid var(--gold);font:600 .95rem/1.4 var(--cond);letter-spacing:.09em;text-transform:uppercase;text-align:center;transition:background .18s,color .18s}
+    .btn-solid{background:var(--gold);color:var(--bg)}
+    .btn-solid:hover{background:#e6b637}
+    .btn-ghost{border-color:var(--line)}
+    .btn-ghost:hover{border-color:var(--gold);color:var(--gold)}
+    .actions{display:flex;gap:14px;flex-wrap:wrap;margin-top:28px}
+    .small{font-size:.9rem;color:var(--muted)}
+    .skip-link{position:fixed;left:16px;top:-100px;z-index:100;background:var(--gold);color:var(--bg);padding:12px 18px}
+    .skip-link:focus{top:12px}
+    nav{position:sticky;top:0;z-index:20;background:rgba(13,13,13,.96);border-bottom:1px solid var(--line)}
+    nav .wrap{min-height:76px;display:flex;align-items:center;justify-content:space-between;gap:20px}
+    .logo{font:600 1.1rem/1.4 var(--cond);letter-spacing:.18em;text-transform:uppercase}
+    .logo span{color:var(--gold)}
+    .nav-links{display:flex;gap:28px;align-items:center;font-size:.94rem}
+    .nav-links>a:not(.btn):hover{color:var(--gold)}
+    .nav-links .btn{min-height:44px;padding:10px 19px}
+    .hero{position:relative;padding:88px 0 78px;overflow:hidden;border-bottom:1px solid var(--line)}
+    .hero::after{content:"";position:absolute;right:-240px;top:-200px;width:900px;height:900px;background:radial-gradient(circle,rgba(212,160,23,.09),transparent 65%);pointer-events:none}
+    .hero-layout{display:grid;grid-template-columns:minmax(0,1.65fr) minmax(260px,1fr);gap:70px;align-items:center;position:relative;z-index:1}
+    .hero h1{margin:20px 0 24px}
+    .hero .sub{font-size:1.17rem;color:var(--muted);max-width:580px}
+    .hero .small{margin-top:15px}
+    .hero-note{border-top:1px solid var(--gold);border-bottom:1px solid var(--line);padding:28px 0}
+    .hero-note h2{font-size:2rem;margin:16px 0}
+    .hero-note p{color:var(--muted);font-size:1rem}
+    .hero-note ul{list-style:none;margin-top:23px}
+    .hero-note li{padding:11px 0;border-top:1px solid var(--line);font-size:.98rem}
+    .hero-note li span{color:var(--gold);display:inline-block;min-width:35px;font-family:var(--cond)}
+    .values{padding:24px 0;border-bottom:1px solid var(--line)}
+    .values .wrap{display:flex;gap:18px 32px;justify-content:space-between;flex-wrap:wrap}
+    .values p{font:500 .84rem/1.5 var(--cond);letter-spacing:.12em;text-transform:uppercase;color:var(--muted)}
+    .values b{color:var(--gold);font-weight:500}
+    section{padding:80px 0;border-bottom:1px solid var(--line)}
+    .section-heading{max-width:740px}
+    .section-heading h2{margin-top:14px}
+    .grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:1px;margin-top:40px;background:var(--line);border:1px solid var(--line)}
+    .card{padding:30px 26px;background:var(--bg)}
+    .card .num{font:400 1.15rem var(--serif);color:var(--gold)}
+    .card h3{margin:16px 0 12px}
+    .card p{font-size:1rem;color:var(--muted)}
+    .about-layout{display:grid;grid-template-columns:1fr 1.1fr;gap:70px}
+    .about-copy p+p{margin-top:20px}
+    .about-copy{color:var(--muted)}
+    .about-copy strong{color:var(--text);font-weight:500}
+    .pull{font:400 1.75rem/1.35 var(--serif);border-left:2px solid var(--gold);padding-left:22px;margin-top:28px;color:var(--text)}
+    .offer-layout{display:grid;grid-template-columns:1fr 1.1fr;gap:70px;align-items:start;margin-top:40px}
+    .fit-list{list-style:none;margin:24px 0}
+    .fit-list li{position:relative;padding:12px 0 12px 24px;border-bottom:1px solid var(--line);color:var(--muted)}
+    .fit-list li::before{content:"+";position:absolute;left:0;color:var(--gold)}
+    .offer{padding:34px;border:1px solid var(--gold);background:var(--panel)}
+    .offer h3{margin:12px 0 18px;font-size:2.2rem}
+    .price{font:400 4.3rem/1 var(--serif);margin-bottom:9px}
+    .price span{font:400 1rem var(--sans);color:var(--muted)}
+    .rate-note{font-size:.94rem;color:var(--muted);padding-bottom:23px;margin-bottom:17px;border-bottom:1px solid var(--line)}
+    .offer ul{list-style:none;margin:20px 0 25px}
+    .offer li{padding:7px 0;font-size:.98rem}
+    .offer li::before{content:"✓";color:var(--gold);margin-right:11px}
+    .offer .btn{width:100%}
+    .offer .small{margin-top:15px}
+    .checkout{padding-top:18px;margin-top:19px;border-top:1px solid var(--line);font-size:.9rem;color:var(--muted)}
+    .checkout a{color:var(--text);display:inline-block;padding-top:5px}
+    .steps{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:34px;margin-top:40px}
+    .step .num{font:400 2.8rem/1 var(--serif);color:var(--gold)}
+    .step h3{margin:18px 0 12px}
+    .step p{color:var(--muted);font-size:1rem}
+    .faq-layout{display:grid;grid-template-columns:.75fr 1.25fr;gap:70px}
+    details{border-bottom:1px solid var(--line)}
+    details:first-child{border-top:1px solid var(--line)}
+    summary{cursor:pointer;padding:20px 28px 20px 0;position:relative;list-style:none;font-weight:500;line-height:1.5}
+    summary::-webkit-details-marker{display:none}
+    summary::after{content:"+";position:absolute;right:0;color:var(--gold);font-size:1.4rem;top:16px}
+    details[open] summary::after{content:"−"}
+    details p{padding-bottom:22px;color:var(--muted);font-size:1rem}
+    .final{text-align:center;background:radial-gradient(ellipse at bottom,rgba(212,160,23,.07),transparent 65%)}
+    .final h2{margin-top:14px}
+    .final .lead{margin:23px auto 0}
+    .final .actions{justify-content:center}
+    .final .small{margin:18px auto 0}
+    footer{padding:40px 0;background:#090909}
+    footer .top{display:flex;justify-content:space-between;gap:20px;align-items:center;flex-wrap:wrap;padding-bottom:25px;border-bottom:1px solid var(--line)}
+    footer .links{display:flex;gap:8px 25px;flex-wrap:wrap;margin-top:20px;font-size:.86rem;color:var(--muted)}
+    footer .links a{display:inline-flex;align-items:center;min-height:44px;text-decoration:underline;text-underline-offset:4px}
+    footer .copy{margin-top:18px;font-size:.82rem;color:var(--muted)}
+    @media(max-width:900px){.hero-layout{gap:38px;grid-template-columns:1.5fr 1fr}.grid{grid-template-columns:repeat(2,minmax(0,1fr))}.about-layout,.offer-layout,.faq-layout{gap:36px}.nav-links{gap:18px}}
+    @media(max-width:700px){h1{font-size:clamp(2.25rem,10.5vw,3.8rem)}.wrap{width:calc(100% - 40px)}nav .wrap{min-height:68px;gap:12px}.logo{font-size:.98rem;letter-spacing:.12em}.nav-links .nav-detail{display:none}.nav-links .btn{font-size:.84rem;padding:10px 13px}.hero{padding:54px 0}.hero-layout,.about-layout,.offer-layout,.faq-layout{grid-template-columns:1fr;gap:32px}.hero-note{padding:22px 0}.hero-note h2{font-size:1.9rem}.values .wrap{display:grid;grid-template-columns:1fr 1fr;gap:16px}.values p{font-size:.8rem;letter-spacing:.07em}section{padding:58px 0}.steps{grid-template-columns:1fr;gap:30px}.step{border-top:1px solid var(--line);padding-top:24px}.grid{grid-template-columns:1fr}.card{padding:26px}.offer{padding:27px 23px}.actions .btn{flex:1 1 auto}.about-layout .lead{margin-top:18px}.faq-layout{gap:28px}footer .top{align-items:flex-start}}
+    @media(prefers-reduced-motion:reduce){html{scroll-behavior:auto}.btn{transition:none}}
+  </style>
 </head>
 <body>
-
-<nav>
-  <div class="wrap">
-    <div class="logo">POWERED <span>VITALITY</span></div>
-    <a href="#pricing" class="btn btn-solid cta-nav">Join Now</a>
-  </div>
-</nav>
-
-<header class="hero">
-  <div class="wrap">
-    <div class="eyebrow">Powered Vitality — by Ryan Granda</div>
-    <h1>Built Right.<br /><em>No Shortcuts.</em></h1>
-    <p class="sub">Faith-driven coaching for Christian men who want to train, steward their body, and finally build the discipline to follow through. Natural training science. Clinical-level programming. Real structure — not more motivation.</p>
-    <div class="cta">
-      <a href="#pricing" class="btn btn-solid">Choose Your Plan</a>
-      <a href="#about" class="btn btn-ghost">Who Is Ryan?</a>
-    </div>
-    <p class="scripture">"Do you not know that your body is a temple of the Holy Spirit?" — 1 Corinthians 6:19</p>
-  </div>
-</header>
-
-<div class="badges">
-  <div class="wrap">
-    <div class="badge"><b>Verified</b> Natural Athlete</div>
-    <div class="badge"><b>Doctor of Chiropractic</b> Candidate</div>
-    <div class="badge"><b>U.S. Coast Guard</b> Veteran</div>
-    <div class="badge"><b>Faith</b> at the Center</div>
-  </div>
-</div>
-
-<section id="about">
-  <div class="wrap">
-    <div class="eyebrow sec-label">Who Is Ryan</div>
-    <h2>Faith first.<br /><em>Discipline always.</em></h2>
-    <p class="lead">I'm a natural professional bodybuilder, a Coast Guard veteran, and a Doctor of Chiropractic candidate at Life West. But before any of that, I'm a man trying to follow Jesus and steward what God gave me. I built Powered Vitality for the guy who knows he's capable of more but has never had the structure to follow through.</p>
-    <p class="lead">You don't need more motivation. You need a system, real accountability, and a coach who has walked it. Discipline isn't separate from your faith — it's part of it. We start there, and we build a body that can serve God, your wife, and your family for the long haul.</p>
-    <p class="pull">The man God is calling you to be is on the other side of <span>the reps you keep skipping.</span></p>
-    <div class="stats">
-      <div class="stat"><div class="n">5+</div><div class="l">Years Competing Natural</div></div>
-      <div class="stat"><div class="n">DC</div><div class="l">Chiropractic Candidate</div></div>
-      <div class="stat"><div class="n">CG</div><div class="l">Coast Guard Veteran</div></div>
-      <div class="stat"><div class="n">Faith</div><div class="l">Driven System</div></div>
-    </div>
-  </div>
-</section>
-
-<section id="what">
-  <div class="wrap">
-    <div class="eyebrow sec-label">What You Get</div>
-    <h2>Everything built <em>around you.</em></h2>
-    <div class="grid">
-      <div class="card"><div class="num">01</div><h3>Custom Training Program</h3><p>Periodized, machine-first hypertrophy built for how a natural athlete's body actually responds — and around your real schedule, equipment, and goals. No cookie-cutter templates.</p></div>
-      <div class="card"><div class="num">02</div><h3>Nutrition Plan</h3><p>Whole-food, performance-based nutrition matched to your training days, body metrics, and lifestyle. Fuel and stewardship, not a fad or a generic macro calculator.</p></div>
-      <div class="card"><div class="num">03</div><h3>Structure &amp; Accountability</h3><p>The piece most men are missing. A clear weekly structure and a coach who keeps you in it when motivation runs out. This is where discipline actually gets built.</p></div>
-      <div class="card"><div class="num">04</div><h3>Weekly Check-Ins</h3><p>Structured progress reviews with real adjustments. Your program evolves as you do — nothing stays static, and nothing gets ignored.</p></div>
-      <div class="card"><div class="num">05</div><h3>Faith-Driven Community</h3><p>A private community of Christian men building discipline together. Accountability, brotherhood, and a standard worth living up to.</p></div>
-      <div class="card"><div class="num">06</div><h3>Clinical Recovery Protocols</h3><p>Injury prevention, mobility, and recovery strategies from a chiropractic lens. Train hard and stay intact for the long run.</p></div>
-    </div>
-  </div>
-</section>
-
-<section id="pricing">
-  <div class="wrap">
-    <div class="eyebrow sec-label">Membership Tiers</div>
-    <h2>Pick your level. <em>Start building.</em></h2>
-    <div class="tiers">
-      <div class="tier">
-        <div class="tag">Tier 01</div>
-        <div class="name">Foundation</div>
-        <div class="price">$97</div>
-        <div class="per">Per Month</div>
-        <ul>
-          <li>Custom training program</li>
-          <li>Nutrition plan + macro targets</li>
-          <li>Faith-driven community access</li>
-          <li>Monthly program update</li>
-          <li>AI coaching support</li>
-        </ul>
-        <a href="https://buy.stripe.com/9B65kD2UZacxgBsaXO3Ru00" class="btn btn-ghost">Get Started →</a>
-      </div>
-      <div class="tier featured">
-        <div class="ribbon">Most Popular</div>
-        <div class="tag">Tier 02</div>
-        <div class="name">Performance</div>
-        <div class="price">$197</div>
-        <div class="per">Per Month</div>
-        <ul>
-          <li>Everything in Foundation</li>
-          <li>Bi-weekly check-ins</li>
-          <li>Program adjustments mid-cycle</li>
-          <li>Detailed nutrition periodization</li>
-          <li>Priority AI coaching response</li>
-          <li>Recovery + mobility protocols</li>
-        </ul>
-        <a href="https://buy.stripe.com/aFa00jbrv5Wh70S4zq3Ru01" class="btn btn-solid">Get Started →</a>
-      </div>
-      <div class="tier">
-        <div class="tag">Tier 03</div>
-        <div class="name">Elite</div>
-        <div class="price">$397</div>
-        <div class="per">Per Month</div>
-        <ul>
-          <li>Everything in Performance</li>
-          <li>Weekly 1-on-1 check-in call</li>
-          <li>Real-time program access</li>
-          <li>Full biometric tracking</li>
-          <li>Contest prep support (if applicable)</li>
-          <li>Direct access to Ryan</li>
-        </ul>
-        <a href="https://buy.stripe.com/28E3cvcvzesNclcd5W3Ru02" class="btn btn-ghost">Apply for Elite →</a>
+  <a href="#main" class="skip-link">Skip to content</a>
+  <nav aria-label="Main navigation">
+    <div class="wrap">
+      <a class="logo" href="#main" aria-label="Powered Vitality home">Powered <span>Vitality</span></a>
+      <div class="nav-links">
+        <a href="#about" class="nav-detail">Meet Ryan</a>
+        <a href="#coaching" class="nav-detail">Your coaching</a>
+        <a href="#pricing" class="btn btn-solid">Get started</a>
       </div>
     </div>
-  </div>
-</section>
-
-<section id="process">
-  <div class="wrap">
-    <div class="eyebrow sec-label">The Process</div>
-    <h2>Simple. <em>Structured. Faithful.</em></h2>
-    <div class="steps">
-      <div class="step"><div class="num">01</div><h3>Apply &amp; Intake</h3><p>Complete a detailed intake covering your training history, goals, schedule, injuries, and where you are in your walk. This is what makes everything custom.</p></div>
-      <div class="step"><div class="num">02</div><h3>Receive Your Plan</h3><p>Within 48 hours you get a fully built training program and nutrition plan designed around your intake. No templates. No guessing. Built for you.</p></div>
-      <div class="step"><div class="num">03</div><h3>Train, Check In, Adjust</h3><p>Execute the plan, submit weekly check-ins, and get real adjustments based on actual progress. We build the discipline together, one week at a time.</p></div>
+  </nav>
+  <main id="main">
+    <header class="hero">
+      <div class="wrap hero-layout">
+        <div>
+          <p class="eyebrow">Faith-centered fitness · Ryan Granda</p>
+          <h1>Start again.<br /><em>Build confidence.</em></h1>
+          <p class="sub">You want to lose fat, build muscle, and feel confident in your body. Let's build a plan you can follow—with personal coaching, weekly accountability, and faith at the center.</p>
+          <div class="actions">
+            <a href="https://www.instagram.com/ryangrandafit/" class="btn btn-solid">DM Ryan “RESTART”</a>
+            <a href="#pricing" class="btn btn-ghost">See the coaching</a>
+          </div>
+          <p class="small">1-on-1 online coaching · $199/month founding rate</p>
+        </div>
+        <aside class="hero-note" aria-label="Who this coaching is for">
+          <p class="eyebrow">For your next chapter</p>
+          <h2>You don't need to have it all figured out.</h2>
+          <p>If you're returning after time away—or tired of trying to do it alone—we start where you are.</p>
+          <ul>
+            <li><span>01</span> A plan that fits your life</li>
+            <li><span>02</span> Someone to check in with</li>
+            <li><span>03</span> Progress you can recognize</li>
+          </ul>
+        </aside>
+      </div>
+    </header>
+    <div class="values">
+      <div class="wrap">
+        <p><b>Personal</b> coaching</p>
+        <p><b>Weekly</b> accountability</p>
+        <p><b>Practical</b> nutrition habits</p>
+        <p><b>Faith</b> at the center</p>
+      </div>
     </div>
-  </div>
-</section>
-
-<section class="center">
-  <div class="wrap">
-    <div class="eyebrow sec-label">The Standard</div>
-    <h2>No fluff. No filler. <em>No shortcuts.</em></h2>
-    <p class="lead">If your first program doesn't feel custom-built and worth every dollar, reach out within 7 days for a full refund. The product speaks for itself or it doesn't ship.</p>
-  </div>
-</section>
-
-<section class="final center">
-  <div class="wrap">
-    <div class="eyebrow sec-label">Ready to Build</div>
-    <h2>Stop starting over.<br /><em>Build something that lasts.</em></h2>
-    <p class="lead">Coaching for the Christian man who's done with the start-stop cycle — built on faith, discipline, and training that actually works for a natural athlete.</p>
-    <div style="margin-top:34px"><a href="#pricing" class="btn btn-solid">Choose Your Plan</a></div>
-  </div>
-</section>
-
-<footer>
-  <div class="wrap">
-    <div class="top">
-      <div class="logo">POWERED <span>VITALITY</span> LLC</div>
-      <div class="tag">Built Right. No Shortcuts.</div>
+    <section id="coaching">
+      <div class="wrap">
+        <div class="section-heading">
+          <p class="eyebrow">Your coaching</p>
+          <h2>Clear direction.<br /><em>Consistent support.</em></h2>
+          <p class="lead">Your goals shape the plan. Your real life shapes how we put it into practice.</p>
+        </div>
+        <div class="grid">
+          <article class="card"><span class="num">01</span><h3>Training built for you</h3><p>A personalized program based on your experience, schedule, equipment, and goals—whether you're getting back into the gym or building a routine at home.</p></article>
+          <article class="card"><span class="num">02</span><h3>Nutrition you can practice</h3><p>General nutrition education and practical eating habits to support your goals. We work on choices you can repeat in everyday life.</p></article>
+          <article class="card"><span class="num">03</span><h3>Weekly accountability</h3><p>A personal check-in with me to review your week, work through obstacles, and decide what to focus on next.</p></article>
+          <article class="card"><span class="num">04</span><h3>Feedback and adjustments</h3><p>Video form feedback and program updates as your strength, confidence, and circumstances change.</p></article>
+          <article class="card"><span class="num">05</span><h3>Direct coaching support</h3><p>A place to ask questions between check-ins. We'll agree on communication hours and response expectations when you start.</p></article>
+          <article class="card"><span class="num">06</span><h3>Faith in the everyday</h3><p>Encouragement grounded in faith, stewardship, and service. We'll work on following through while meeting setbacks with honesty and grace.</p></article>
+        </div>
+      </div>
+    </section>
+    <section id="about">
+      <div class="wrap about-layout">
+        <div class="section-heading">
+          <p class="eyebrow">Meet your coach</p>
+          <h2>I'm Ryan.<br /><em>Faith shapes how I coach.</em></h2>
+          <p class="pull">Build strength for the life you want to live—and the people you want to serve.</p>
+        </div>
+        <div class="about-copy">
+          <p>I'm a natural professional bodybuilder, a U.S. Coast Guard veteran, and a chiropractic student at Life West. Following Jesus shapes the way I approach discipline, health, and serving others.</p>
+          <p>I built Powered Vitality to help people who want to restart fitness with a clear plan and someone in their corner. You can come as you are, be honest about what's difficult, and work toward meaningful progress.</p>
+          <p><strong>I'll help you turn your goals into weekly actions</strong> and adjust the plan when life gets in the way. Our focus is strength, sustainable habits, and confidence earned through following through.</p>
+          <p class="small">This is fitness coaching and general nutrition education. My chiropractic studies inform my learning; this service does not provide medical diagnosis or treatment.</p>
+        </div>
+      </div>
+    </section>
+    <section id="pricing">
+      <div class="wrap">
+        <div class="section-heading">
+          <p class="eyebrow">One coaching offer</p>
+          <h2>A plan for your goals.<br /><em>A coach in your corner.</em></h2>
+        </div>
+        <div class="offer-layout">
+          <div>
+            <h3>Sound like where you are?</h3>
+            <ul class="fit-list">
+              <li>You're restarting after time away and want a manageable first step.</li>
+              <li>You want to work toward fat loss, muscle growth, and more confidence.</li>
+              <li>You need accountability when motivation fades.</li>
+              <li>You value God and want your faith reflected in the way you're supported.</li>
+            </ul>
+            <p class="muted">Start with a conversation. Tell me what you're working toward and what's been getting in the way. We'll talk through whether coaching is a good fit.</p>
+          </div>
+          <article class="offer" aria-label="1-on-1 online coaching, founding rate">
+            <p class="eyebrow">Founding enrollment</p>
+            <h3>1-on-1 Online Coaching</h3>
+            <p class="price">$199<span> / month</span></p>
+            <p class="rate-note">Join during our initial 3-month founding window and keep your $199/month rate. After that window, the price becomes $249/month for new clients. Founding clients stay at $199/month.</p>
+            <ul>
+              <li>Personalized training program</li>
+              <li>General nutrition and habit guidance</li>
+              <li>Weekly personal check-ins</li>
+              <li>Video form feedback</li>
+              <li>Program adjustments as you progress</li>
+              <li>Direct messaging with Ryan</li>
+            </ul>
+            <a href="https://www.instagram.com/ryangrandafit/" class="btn btn-solid">DM Ryan “RESTART”</a>
+            <p class="small">Opens @ryangrandafit on Instagram. Tap Message and send “RESTART.” Prefer email? <a class="text-link" href="mailto:ryangrandafit@gmail.com?subject=RESTART%20%E2%80%94%20Coaching">Contact Ryan</a>.</p>
+            <div class="checkout">Already spoken with me and ready to enroll?<br /><a class="text-link" href="https://buy.stripe.com/28E3cv1pn4nSfLp2wF5os00">Continue to the $199/month checkout →</a></div>
+            <p class="small">Renews monthly until canceled. See <a class="text-link" href="terms-and-conditions">terms</a>, <a class="text-link" href="refund-policy">cancellation and refund policy</a>, and <a class="text-link" href="privacy-policy">privacy policy</a> before enrolling.</p>
+          </article>
+        </div>
+      </div>
+    </section>
+    <section id="process">
+      <div class="wrap">
+        <div class="section-heading"><p class="eyebrow">Getting started</p><h2>One conversation.<br /><em>Then your next step.</em></h2></div>
+        <div class="steps">
+          <article class="step"><p class="num">01</p><h3>Tell me your goal</h3><p>Send “RESTART” on Instagram or email me. We'll discuss your goals, routine, and the support you're looking for.</p></article>
+          <article class="step"><p class="num">02</p><h3>Build your starting plan</h3><p>If we're a good fit, I'll walk you through enrollment and intake so your program reflects your starting point, schedule, and equipment.</p></article>
+          <article class="step"><p class="num">03</p><h3>Train, check in, adjust</h3><p>Put your plan into practice. We'll review progress each week and make useful adjustments so you know what to work on next.</p></article>
+        </div>
+      </div>
+    </section>
+    <section id="questions">
+      <div class="wrap faq-layout">
+        <div class="section-heading"><p class="eyebrow">Before you start</p><h2>A few things<br /><em>to know.</em></h2></div>
+        <div>
+          <details><summary>Do I need to be fit already?</summary><p>No. This coaching is designed to meet you at your starting point, including if you're new to training or returning after a break. We'll discuss your experience and what a manageable start looks like.</p></details>
+          <details><summary>Will my founding rate increase after 3 months?</summary><p>No. The 3 months refer to our initial founding enrollment window. Clients who join during that window are grandfathered at $199/month. After it closes, new clients pay $249/month for the same coaching service.</p></details>
+          <details><summary>Is there a 3-month commitment?</summary><p>No. The founding enrollment window is separate from your subscription. Coaching is billed monthly, and you can request cancellation at any time by emailing <a class="text-link" href="mailto:ryangrandafit@gmail.com">ryangrandafit@gmail.com</a>. Requests are processed within 2 business days, with access continuing through your paid period. Review the <a class="text-link" href="refund-policy">full cancellation and refund policy</a> before enrolling.</p></details>
+          <details><summary>How does faith fit into the coaching?</summary><p>My Christian faith shapes how I coach: with honesty, care, accountability, and grace. We'll connect your habits to what matters to you and build a routine that supports the life you want to live.</p></details>
+          <details><summary>What results can I expect?</summary><p>We'll set goals based on your starting point and track relevant progress, such as consistency, strength, body measurements, and confidence. Results and timelines vary. I don't promise a specific amount of weight loss or muscle gain.</p></details>
+        </div>
+      </div>
+    </section>
+    <section class="final">
+      <div class="wrap">
+        <p class="eyebrow">Your next step</p>
+        <h2>Let's make your restart<br /><em>something you can build on.</em></h2>
+        <p class="lead">Tell me where you are and where you want to go. We'll work out the next step together.</p>
+        <div class="actions"><a href="https://www.instagram.com/ryangrandafit/" class="btn btn-solid">DM Ryan “RESTART”</a></div>
+        <p class="small">Prefer email? <a class="text-link" href="mailto:ryangrandafit@gmail.com?subject=RESTART%20%E2%80%94%20Coaching">ryangrandafit@gmail.com</a></p>
+      </div>
+    </section>
+  </main>
+  <footer>
+    <div class="wrap">
+      <div class="top"><p class="logo">Powered <span>Vitality</span> LLC</p><p class="eyebrow">Built Right. No Shortcuts.</p></div>
+      <div class="links"><a href="privacy-policy">Privacy Policy</a><a href="terms-and-conditions">Terms &amp; Conditions</a><a href="disclaimer">Disclaimer</a><a href="refund-policy">Refund Policy</a><a href="mailto:ryangrandafit@gmail.com">Contact Ryan</a></div>
+      <p class="copy">© 2026 Powered Vitality LLC. All rights reserved.</p>
     </div>
-    <div class="links" style="margin-top:24px">
-      <a href="https://poweredvitality.netlify.app/privacy-policy">Privacy Policy</a>
-      <a href="https://poweredvitality.netlify.app/terms-and-conditions">Terms &amp; Conditions</a>
-      <a href="https://poweredvitality.netlify.app/disclaimer">Disclaimer</a>
-      <a href="https://poweredvitality.netlify.app/refund-policy">Refund Policy</a>
-      <a href="mailto:ryangrandafit@gmail.com">Contact</a>
-    </div>
-    <div class="copy">© 2026 Powered Vitality LLC. All rights reserved.</div>
-  </div>
-</footer>
-
+  </footer>
 </body>
 </html>
