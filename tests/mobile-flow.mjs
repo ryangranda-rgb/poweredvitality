@@ -117,6 +117,10 @@ try {
     await page.locator('#application').evaluate(form=>form.requestSubmit());
     await page.waitForSelector('#success:not([hidden])');
     assert((await page.locator('#success-copy').textContent()).includes('Nothing was sent'));
+    const nextSteps = await page.locator('#success ol li').allTextContents();
+    assert(nextSteps[1].includes('30-minute Zoom consultation'));
+    assert(nextSteps[2].includes('After your consultation'));
+    assert(nextSteps[3].includes('1st check-in'));
     assert.equal(posts,0);
     assert.equal(await page.evaluate(()=>sessionStorage.getItem('pv-application-choices-v1')),null);
     await page.screenshot({path:path.join(output,'success-mobile.png'),fullPage:true});
@@ -161,11 +165,36 @@ try {
     assert.equal(await gates.locator('a[href*="buy.stripe.com"]').count(),0);
     assert(await gates.getByRole('button',{name:/Payment · Unavailable/}).isDisabled());
     assert(await gates.getByRole('button',{name:/Review & sign/}).isDisabled());
-    assert((await gates.locator('.state-pill').textContent()).includes('0 of 5'));
+    assert((await gates.locator('.state-pill').textContent()).includes('0 of 6'));
     await gates.goto(base+'/');
     assert.equal(await gates.locator('a[href*="buy.stripe.com"]').count(),0);
     assert.equal(await gates.locator('a.btn-solid[href="/apply"]').count(),4);
   });await gates.context().close();
+  const consultation=await newPage();await consultation.goto(base+'/start');
+  await check('6-stage journey puts a disabled 30-minute Zoom consultation before enrollment',async()=>{
+    const titles=await consultation.locator('.stage-title').allTextContents();
+    const expected=['Apply for coaching','Ryan reviews your fit','30-minute Zoom consultation','Agreement & enrollment','Complete private onboarding','Starting plan & 1st check-in'];
+    assert.equal(titles.length,6);expected.forEach((title,index)=>assert(titles[index].startsWith(title)));
+    assert(await consultation.locator('#consultation-booking').isDisabled());
+    assert((await consultation.locator('#consultation-status').textContent()).includes('Awaiting scheduling setup'));
+    assert.equal(await consultation.locator('a[href*="calendly.com"]').count(),0);
+    assert.equal(await consultation.locator('iframe[src*="calendly.com"]').count(),0);
+    await consultation.getByRole('link',{name:'Open the application preview',exact:true}).click();
+    await fillAll(consultation);await consultation.locator('#submit').click();
+    await consultation.waitForSelector('#success:not([hidden])');
+    await consultation.getByRole('link',{name:'See your next steps',exact:true}).click();
+    assert(await consultation.locator('#consultation-booking').isDisabled());
+    assert((await consultation.locator('.state-pill').textContent()).includes('0 of 6'));
+  });await consultation.context().close();
+  const configured=await newPage();
+  await configured.route('**/assets/consultation-config.js',route=>route.fulfill({contentType:'text/javascript',body:"export const consultationConfig=Object.freeze({durationMinutes:30,meetingPlatform:'Zoom',confirmedBookingUrl:'https://calendly.com/ryangrandafit/coaching-call-clone'});"}));
+  await configured.goto(base+'/start');
+  await check('Configuring a link never enables public preview booking or bypasses review',async()=>{
+    assert(await configured.locator('#consultation-booking').isDisabled());
+    assert((await configured.locator('#consultation-status').textContent()).includes('invitation after Ryan'));
+    assert.equal(await configured.locator('a[href*="calendly.com"]').count(),0);
+    assert.equal(await configured.locator('iframe[src*="calendly.com"]').count(),0);
+  });await configured.context().close();
   const prefs=await newPage();let prefPosts=0;prefs.on('request',req=>{if(req.method()==='POST')prefPosts++;});await prefs.goto(base+'/onboard');
   await check('Mobile nonmedical preferences validate and explain manual plan delivery',async()=>{
     await prefs.getByRole('button',{name:'Preview my next step'}).click();
