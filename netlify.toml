@@ -1,0 +1,14 @@
+# Branch/Deploy Previews always simulate. Only the approved production build captures applications.
+# Legal/payment/private-intake activation remains separate.
+[build]
+  command = "python3 tools/build_site.py"
+  publish = "dist"
+
+[context.production.environment]
+  PV_APPLICATION_MODE = "netlify"
+
+[dev]
+  command = "python3 tools/preview_server.py"
+  targetPort = 8765
+  port = 8888
+  framework = "#custom"
