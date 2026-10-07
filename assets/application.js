@@ -3,8 +3,9 @@ import { applicationConfig as config } from './application-config.js';
 const form = document.querySelector('#application');
 const steps = [...document.querySelectorAll('[data-step]')];
 const stepLabels = ['Your start', 'Your week', 'Your support', 'Review'];
-const safeFields = ['experience', 'goal', 'days', 'equipment', 'barrier', 'nutrition', 'budget'];
-const storageKey = 'pv-application-choices-v1';
+const safeFields = ['experience', 'goal', 'days', 'routine', 'equipment', 'schedule', 'barrier', 'nutrition', 'reason', 'budget'];
+const storageKey = 'pv-application-choices-v2';
+const publicFields = ['form-name', 'application-id', 'application-version', 'subject', 'bot-field', 'name', 'email', 'instagram', 'adult', ...safeFields];
 const next = document.querySelector('#next');
 const back = document.querySelector('#back');
 const submit = document.querySelector('#submit');
@@ -13,6 +14,17 @@ let step = 0;
 let busy = false;
 let finished = false;
 let applicationId = newId();
+let needsReceiptCheck = false;
+const referenceKey = 'pv-application-reference-v2';
+try {
+  const saved = sessionStorage.getItem(referenceKey);
+  if (/^(?:[a-f0-9]{8}(?:-[a-f0-9]{4}){3}-[a-f0-9]{12}|pv-\d+-[a-z0-9]+)$/i.test(saved || '')) {
+    applicationId = saved;
+    // A saved sending reference represents an uncertain earlier outcome.
+    // Never automatically send it again or treat it as accepted/received.
+    needsReceiptCheck = true;
+  }
+} catch { /* Sending remains usable when storage is unavailable. */ }
 
 function newId() { return globalThis.crypto?.randomUUID?.() || `pv-${Date.now()}-${Math.random().toString(36).slice(2)}`; }
 function readAnswers() { return Object.fromEntries(new FormData(form)); }
@@ -27,7 +39,7 @@ function saveChoices() {
   try { sessionStorage.setItem(storageKey, JSON.stringify(Object.fromEntries(safeFields.map(name => [name, values[name] || ''])))); } catch { /* Navigation still preserves answers in memory. */ }
 }
 function clearErrors() {
-  errorBox.hidden = true;
+  errorBox.hidden = !needsReceiptCheck;
   document.querySelectorAll('.error').forEach(error => { error.hidden = true; error.textContent = ''; });
   document.querySelectorAll('[aria-invalid]').forEach(control => control.removeAttribute('aria-invalid'));
   document.querySelectorAll('.invalid').forEach(field => field.classList.remove('invalid'));
@@ -48,8 +60,10 @@ function validate(index) {
   if (index === 0) {
     if (!values.name.trim()) fail('name', 'Please enter your name.');
     if (!values.email.trim() || !form.elements.email.validity.valid) fail('email', 'Please enter a valid email address, like you@example.com.');
+    if (values.instagram && !form.elements.instagram.validity.valid) fail('instagram', 'Use your Instagram handle only, like @yourhandle, or leave it blank.');
     if (!values.experience) fail('experience', 'Choose your starting point.');
     if (!values.goal) fail('goal', 'Choose your main goal.');
+    if (values.adult !== '18-or-older') fail('adult', 'This application is for adults. Please confirm you are 18 or older.');
   }
   if (index === 1 && !values.days) fail('days', 'Choose a realistic number of days, or “Not sure.”');
   if (index === 2 && !values.budget) fail('budget', 'Choose the answer that feels right for you.');
@@ -59,9 +73,9 @@ function validate(index) {
 function renderReview() {
   const values = readAnswers();
   const groups = [
-    ['Your start', 0, [['name', 'Name'], ['email', 'Email'], ['instagram', 'Instagram'], ['experience', 'Starting point'], ['goal', 'Main goal']]],
-    ['Your week', 1, [['days', 'Days per week'], ['routine', 'Current routine'], ['equipment', 'Training space'], ['limitations', 'Schedule or equipment']]],
-    ['Your support', 2, [['barrier', 'Consistency barrier'], ['nutrition', 'Eating habits'], ['reason', 'Why coaching now'], ['budget', '$199/month']]],
+    ['Your start', 0, [['name', 'Name'], ['email', 'Email'], ['instagram', 'Instagram'], ['experience', 'Starting point'], ['goal', 'Main goal'], ['adult', 'Adult confirmation']]],
+    ['Your week', 1, [['days', 'Days per week'], ['routine', 'Current routine'], ['equipment', 'Training space'], ['schedule', 'Schedule']]],
+    ['Your support', 2, [['barrier', 'Consistency barrier'], ['nutrition', 'General eating-habit support'], ['reason', 'Why coaching now'], ['budget', '$199/month']]],
   ];
   const review = document.querySelector('#review');
   review.replaceChildren();
@@ -103,10 +117,11 @@ function setBusy(value) {
   busy = value;
   form.setAttribute('aria-busy', String(value));
   [next, back, submit, document.querySelector('#clear')].forEach(button => { button.disabled = value; });
+  submit.disabled = value || needsReceiptCheck;
   document.querySelectorAll('#review button').forEach(button => { button.disabled = value; });
   submit.replaceChildren();
   if (value) { const spinner = document.createElement('span'); spinner.className = 'spinner'; spinner.setAttribute('aria-hidden', 'true'); submit.append(spinner, document.createTextNode(config.submissionMode === 'preview' ? 'Checking preview…' : 'Sending…')); }
-  else submit.textContent = config.submissionMode === 'preview' ? 'Preview application →' : 'Send application →';
+  else submit.textContent = needsReceiptCheck ? 'Contact Ryan before resubmitting' : config.submissionMode === 'preview' ? 'Preview application →' : 'Send application →';
 }
 async function deliver(payload) {
   if (config.submissionMode === 'preview') {
@@ -133,7 +148,7 @@ form.addEventListener('keydown', event => {
 });
 form.addEventListener('submit', async event => {
   event.preventDefault();
-  if (busy || finished) return;
+  if (busy || finished || needsReceiptCheck) return;
   clearErrors();
   for (let index = 0; index < 3; index++) {
     if (!validate(index)) { showStep(index, false); steps[index].querySelector('[aria-invalid="true"]').focus(); return; }
@@ -143,13 +158,18 @@ form.addEventListener('submit', async event => {
     errorBox.hidden = false; document.querySelector('#form-error-text').textContent = 'This application could not be sent. Please contact Ryan for help.'; return;
   }
   form.elements['application-id'].value = applicationId;
-  const payload = readAnswers(); payload['form-name'] = config.formName;
+  const answers = readAnswers();
+  const payload = Object.fromEntries(publicFields.map(name => [name, answers[name] || '']));
+  payload['form-name'] = config.formName;
   payload.name = payload.name.trim(); payload.email = payload.email.trim();
+  if (config.submissionMode === 'netlify') {
+    try { sessionStorage.setItem(referenceKey, applicationId); } catch {}
+  }
   setBusy(true);
   try {
     const result = await deliver(payload);
     finished = true;
-    try { sessionStorage.removeItem(storageKey); } catch {}
+    try { sessionStorage.removeItem(storageKey); sessionStorage.removeItem(referenceKey); } catch {}
     document.querySelector('#wizard').hidden = true;
     document.querySelector('#success').hidden = false;
     if (!result.preview) {
@@ -160,16 +180,19 @@ form.addEventListener('submit', async event => {
     document.querySelector('#success-title').focus();
   } catch (error) {
     errorBox.hidden = false;
-    document.querySelector('#form-error-text').textContent = config.submissionMode === 'preview' ? 'Preview error: nothing was sent. Your answers are still here. Try again or contact Ryan.' : 'We could not confirm your application was received. Your answers are still here. Contact Ryan before retrying if you are unsure whether it went through.';
+    if (config.submissionMode === 'netlify') needsReceiptCheck = true;
+    document.querySelector('#form-error-text').textContent = config.submissionMode === 'preview' ? 'Preview error: nothing was sent. Your answers are still here. Try again or contact Ryan.' : `We could not confirm your application was received. Your answers are still here. Contact ryangrandafit@gmail.com before resubmitting and quote reference ${applicationId}. No automatic retry will be sent.`;
     errorBox.scrollIntoView({ block: 'center', behavior: 'smooth' });
   } finally { setBusy(false); }
 });
 function reset() {
   if (busy) return;
-  form.reset(); applicationId = newId(); finished = false;
-  try { sessionStorage.removeItem(storageKey); } catch {}
+  form.reset(); applicationId = newId(); finished = false; needsReceiptCheck = false;
+  form.elements['application-id'].value = applicationId;
+  try { sessionStorage.removeItem(storageKey); sessionStorage.removeItem(referenceKey); } catch {}
   document.querySelector('#wizard').hidden = false; document.querySelector('#success').hidden = true;
   goTo(0);
+  setBusy(false);
 }
 document.querySelector('#clear').addEventListener('click', reset);
 document.querySelector('#start-over').addEventListener('click', reset);
@@ -179,15 +202,23 @@ window.addEventListener('popstate', event => {
   if (!busy) { clearErrors(); showStep(Math.min(3, Math.max(0, index))); }
 });
 try {
+  sessionStorage.removeItem('pv-application-choices-v1');
   const saved = JSON.parse(sessionStorage.getItem(storageKey) || '{}');
   safeFields.forEach(name => setValue(name, saved[name]));
 } catch { /* Invalid or unavailable storage is harmless. */ }
 // Always begin a reload at contact details. A URL never confers approval or progress.
 history.replaceState({ pvStep: 0 }, '', `${location.pathname}${location.search}#step-1`);
 if (config.submissionMode === 'netlify') {
-  document.querySelector('#preview-note').hidden = true;
+  const previewNote = document.querySelector('#preview-note');
+  if (previewNote) previewNote.hidden = true;
   document.querySelector('#preview-submit-note').textContent = 'Ryan uses your answers to review fit and follow up. This does not subscribe you to marketing.';
   submit.textContent = 'Send application →';
 }
 document.querySelector('#application-card').hidden = false;
+form.elements['application-id'].value = applicationId;
+if (needsReceiptCheck) {
+  errorBox.hidden = false;
+  document.querySelector('#form-error-text').textContent = `An earlier application receipt could not be confirmed. Contact ryangrandafit@gmail.com before resubmitting and quote reference ${applicationId}. Clearing unsent answers only clears this local draft; it does not delete a submitted application.`;
+  setBusy(false);
+}
 showStep(0, false);

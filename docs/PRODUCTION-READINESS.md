@@ -1,3 +1,7 @@
+# Earlier review findings — resolved for the application-only launch
+
+The operational privacy/policy mismatches below were identified before application launch. The parent subsequently approved a factual application-specific notice, narrow website/application terms and gated paid/private stages. Exact legacy policy files are archived outside publish output. Read `ACTIVATION.md` for the current bounded scope and pending real-record/owner-notification verification. No paid agreement, private intake or legal-compliance claim is activated.
+
 # Production boundary report for parent review
 
 Ryan has authorized publication of responsibly verified components. This report is the required internal scope handoff before any production change; it does not request another user approval. Production/main remain at `201582946d3644fcd82fe9032a7880187b94c232`, published deploy `6ac53f154aba9f0008fd47e8`, which is the rollback point.

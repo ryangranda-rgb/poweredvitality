@@ -25,16 +25,17 @@ async function firstStep(page) {
   await page.getByLabel('Email address', {exact:true}).fill('preview@example.com');
   await page.getByLabel('Where are you starting?', {exact:true}).selectOption({label:'Restarting after time away'});
   await page.getByLabel('What is your main goal?', {exact:true}).selectOption({label:'Build a consistent routine'});
+  await page.getByLabel('I am 18 or older.', {exact:true}).check();
   await page.getByRole('button', {name:'Continue'}).click();
 }
 async function fillAll(page) {
   await firstStep(page);
   await page.getByLabel('3 days', {exact:true}).check();
-  await page.getByLabel('What does your routine look like?', {exact:false}).fill('A couple of walks each week.');
+  await page.getByLabel('What does your routine look like?', {exact:false}).selectOption({label:'Mostly walking or everyday movement'});
   await page.getByLabel('Where would you train?', {exact:false}).selectOption({label:'Home with some equipment'});
   await page.getByRole('button', {name:'Continue'}).click();
   await page.getByLabel('Yes, this feels workable', {exact:true}).check();
-  await page.getByLabel('Why coaching, and why now?', {exact:false}).fill('I want a repeatable routine and personal accountability.');
+  await page.getByLabel('Why coaching, and why now?', {exact:false}).selectOption({label:"I'd like personal accountability"});
   await page.getByRole('button', {name:'Continue'}).click();
 }
 try {
@@ -78,25 +79,26 @@ try {
     await page.getByRole('button',{name:'Continue'}).click();
     assert(await page.locator('#days-error').isVisible());
     await page.getByLabel('3 days',{exact:true}).check();
-    await page.getByLabel('What does your routine look like?',{exact:false}).fill('Preview routine');
+    await page.getByLabel('What does your routine look like?',{exact:false}).selectOption({label:'No routine yet'});
     await page.getByRole('button',{name:'Back',exact:true}).click();
     assert.equal(await page.locator('#name').inputValue(),'Preview Applicant');
     await page.goBack();
     assert(await page.locator('[data-step="1"]').isVisible());
     assert(await page.getByLabel('3 days',{exact:true}).isChecked());
-    assert.equal(await page.locator('#routine').inputValue(),'Preview routine');
+    assert.equal(await page.locator('#routine').inputValue(),'No routine yet');
     await page.goForward();
     assert(await page.locator('[data-step="0"]').isVisible());
   });
   await check('Reload persists only allowed choices and clears identifying/written answers', async () => {
-    const stored = await page.evaluate(()=>JSON.parse(sessionStorage.getItem('pv-application-choices-v1')));
-    assert.deepEqual(Object.keys(stored), ['experience','goal','days','equipment','barrier','nutrition','budget']);
+    const stored = await page.evaluate(()=>JSON.parse(sessionStorage.getItem('pv-application-choices-v2')));
+    assert.deepEqual(Object.keys(stored), ['experience','goal','days','routine','equipment','schedule','barrier','nutrition','reason','budget']);
     assert(!JSON.stringify(stored).includes('Preview Applicant'));
-    assert(!JSON.stringify(stored).includes('Preview routine'));
+    assert(!Object.keys(stored).includes('adult'));
     await page.reload();
     assert.equal(await page.locator('#name').inputValue(),'');
     assert.equal(await page.locator('#email').inputValue(),'');
-    assert.equal(await page.locator('#routine').inputValue(),'');
+    assert.equal(await page.locator('#routine').inputValue(),'No routine yet');
+    assert(!(await page.locator('#adult').isChecked()));
     assert.equal(await page.locator('#experience').inputValue(),'Restarting after time away');
   });
   await check('Review editing, no injected HTML, loading and duplicate-submit protection', async () => {
@@ -122,7 +124,7 @@ try {
     assert(nextSteps[2].includes('After your consultation'));
     assert(nextSteps[3].includes('1st check-in'));
     assert.equal(posts,0);
-    assert.equal(await page.evaluate(()=>sessionStorage.getItem('pv-application-choices-v1')),null);
+    assert.equal(await page.evaluate(()=>sessionStorage.getItem('pv-application-choices-v2')),null);
     await page.screenshot({path:path.join(output,'success-mobile.png'),fullPage:true});
   });
   await page.context().close();
@@ -155,11 +157,29 @@ try {
     await keyboard.locator('#goal').selectOption({label:'Build a consistent routine'});
     assert(await keyboard.locator('#experience').inputValue());
     assert(await keyboard.locator('#goal').inputValue());
+    await keyboard.keyboard.press('Tab');
+    assert.equal(await keyboard.evaluate(()=>document.activeElement.id),'adult');
+    await keyboard.keyboard.press('Space');
+    assert(await keyboard.locator('#adult').isChecked());
     await keyboard.locator('#email').focus();
     await keyboard.keyboard.press('Enter');
     assert(await keyboard.locator('[data-step="1"]').isVisible());
     assert.equal(await keyboard.evaluate(()=>document.activeElement.id),'heading-1');
   });await keyboard.context().close();
+  const narrow=await newPage();await narrow.goto(base+'/apply');
+  await check('Public application has bounded nonmedical choices, clear notices, adult eligibility and no health/faith uploads',async()=>{
+    assert.equal(await narrow.locator('#application textarea, #application input[type="file"]').count(),0);
+    assert.equal(await narrow.locator('#application [name="limitations"], #application [name="encouragement"]').count(),0);
+    const textFields=await narrow.locator('#application input[type="text"], #application input[type="email"]').evaluateAll(fields=>fields.filter(f=>f.name!=='bot-field').map(f=>f.name));
+    assert.deepEqual(textFields,['name','email','instagram']);
+    assert.equal(await narrow.locator('#application-privacy-before a[href="/application-privacy"]').count(),1);
+    assert.equal(await narrow.locator('#application-submit-notice a[href="/application-privacy"]').count(),1);
+    assert((await narrow.locator('#application-submit-notice').textContent()).includes('Google/Gmail'));
+    assert((await narrow.locator('#application-submit-notice').textContent()).includes('Netlify Forms'));
+    await firstStep(narrow);await narrow.getByRole('button',{name:'Back',exact:true}).click();await narrow.locator('#adult').uncheck();
+    await narrow.getByRole('button',{name:'Continue'}).click();assert(await narrow.locator('#adult-error').isVisible());
+    assert.equal(await narrow.evaluate(()=>document.activeElement.id),'adult');
+  });await narrow.context().close();
   const gates=await newPage();await gates.goto(base+'/start');
   await check('Agreement/payment stay disabled, no public checkout, no fake client state',async()=>{
     assert.equal(await gates.locator('a[href*="buy.stripe.com"]').count(),0);
@@ -226,10 +246,10 @@ try {
       await fillAll(live);await live.locator('#submit').click();
       if(status===200) {await live.waitForSelector('#success:not([hidden])');assert((await live.locator('#success-eyebrow').textContent()).includes('Application received'));}
       else {await live.waitForSelector('#form-error:not([hidden])');assert(!(await live.locator('#success').isVisible()));assert.equal(await live.locator('#name').inputValue(),'Preview Applicant');}
-      const body=new URLSearchParams(received);assert.equal(body.get('form-name'),'coaching-application');assert.equal(body.get('email'),'preview@example.com');assert(body.get('application-id'));assert.equal(body.get('bot-field'),'');
+      const body=new URLSearchParams(received);assert.equal(body.get('form-name'),'coaching-application');assert.equal(body.get('email'),'preview@example.com');assert(body.get('application-id'));assert.equal(body.get('bot-field'),'');assert.equal(body.get('adult'),'18-or-older');assert.equal(body.get('application-version'),'2026-10-07-v2');
     });await live.context().close();
   }
-  await check('No JavaScript console errors',async()=>assert.deepEqual(errors,[]));
+  await check('No uncaught JavaScript errors',async()=>assert.deepEqual(errors,[]));
   await writeFile(path.join(output,'mobile-flow-qa.json'),JSON.stringify({baseline:'201582946d3644fcd82fe9032a7880187b94c232',results,consoleErrors:errors,liveDataTransmitted:false},null,2));
   console.log(JSON.stringify({passed:results.length,results,output},null,2));
 } catch(error) {console.error(error);process.exitCode=1;}
