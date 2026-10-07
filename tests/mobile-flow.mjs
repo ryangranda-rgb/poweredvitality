@@ -171,30 +171,33 @@ try {
     assert.equal(await gates.locator('a.btn-solid[href="/apply"]').count(),4);
   });await gates.context().close();
   const consultation=await newPage();await consultation.goto(base+'/start');
-  await check('6-stage journey puts a disabled 30-minute Zoom consultation before enrollment',async()=>{
+  await check('6-stage journey explains manual Zoom scheduling before enrollment without confirming progress',async()=>{
     const titles=await consultation.locator('.stage-title').allTextContents();
     const expected=['Apply for coaching','Ryan reviews your fit','30-minute Zoom consultation','Agreement & enrollment','Complete private onboarding','Starting plan & 1st check-in'];
     assert.equal(titles.length,6);expected.forEach((title,index)=>assert(titles[index].startsWith(title)));
-    assert(await consultation.locator('#consultation-booking').isDisabled());
-    assert((await consultation.locator('#consultation-status').textContent()).includes('Awaiting scheduling setup'));
+    assert.equal(await consultation.locator('#consultation-booking').count(),0);
+    assert((await consultation.locator('#consultation-status').textContent()).includes('Ryan schedules with you by email'));
+    const scheduling=await consultation.locator('#consultation-scheduling li').allTextContents();
+    assert.deepEqual(scheduling,['Ryan offers times from his schedule.','Reply with your chosen time and time zone.','Ryan confirms the date, time and time zone, then sends your Zoom invitation.']);
+    assert((await consultation.locator('#consultation-gate').textContent()).includes('does not schedule a call or send an invitation'));
     assert.equal(await consultation.locator('a[href*="calendly.com"]').count(),0);
     assert.equal(await consultation.locator('iframe[src*="calendly.com"]').count(),0);
     await consultation.getByRole('link',{name:'Open the application preview',exact:true}).click();
     await fillAll(consultation);await consultation.locator('#submit').click();
     await consultation.waitForSelector('#success:not([hidden])');
     await consultation.getByRole('link',{name:'See your next steps',exact:true}).click();
-    assert(await consultation.locator('#consultation-booking').isDisabled());
+    assert.equal(await consultation.locator('#consultation-booking').count(),0);
     assert((await consultation.locator('.state-pill').textContent()).includes('0 of 6'));
   });await consultation.context().close();
-  const configured=await newPage();
-  await configured.route('**/assets/consultation-config.js',route=>route.fulfill({contentType:'text/javascript',body:"export const consultationConfig=Object.freeze({durationMinutes:30,meetingPlatform:'Zoom',confirmedBookingUrl:'https://calendly.com/ryangrandafit/coaching-call-clone'});"}));
-  await configured.goto(base+'/start');
-  await check('Configuring a link never enables public preview booking or bypasses review',async()=>{
-    assert(await configured.locator('#consultation-booking').isDisabled());
-    assert((await configured.locator('#consultation-status').textContent()).includes('invitation after Ryan'));
-    assert.equal(await configured.locator('a[href*="calendly.com"]').count(),0);
-    assert.equal(await configured.locator('iframe[src*="calendly.com"]').count(),0);
-  });await configured.context().close();
+  const manual=await newPage(390,{javaScriptEnabled:false});await manual.goto(base+'/start');
+  await check('Manual scheduling is accessible without JavaScript and has no booking provider or activation script',async()=>{
+    assert(await manual.locator('#consultation-scheduling').isVisible());
+    assert((await manual.locator('#consultation-status').textContent()).includes('Ryan schedules with you by email'));
+    assert.equal(await manual.locator('#consultation-stage button, #consultation-stage iframe, #consultation-stage a').count(),0);
+    assert.equal(await manual.locator('script[src*="consultation"]').count(),0);
+    assert.equal(await manual.locator('a[href*="calendly.com"], iframe[src*="calendly.com"]').count(),0);
+    assert((await manual.locator('.state-pill').textContent()).includes('0 of 6'));
+  });await manual.context().close();
   const prefs=await newPage();let prefPosts=0;prefs.on('request',req=>{if(req.method()==='POST')prefPosts++;});await prefs.goto(base+'/onboard');
   await check('Mobile nonmedical preferences validate and explain manual plan delivery',async()=>{
     await prefs.getByRole('button',{name:'Preview my next step'}).click();

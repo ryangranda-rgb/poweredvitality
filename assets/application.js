@@ -154,7 +154,7 @@ form.addEventListener('submit', async event => {
     document.querySelector('#success').hidden = false;
     if (!result.preview) {
       document.querySelector('#success-eyebrow').textContent = 'Application received';
-      document.querySelector('#success-copy').textContent = 'Thanks for applying. Ryan will personally review your application and follow up at the email you provided. If you are a fit, your next step is a 30-minute Zoom consultation before agreement and payment. You have not been enrolled or charged.';
+      document.querySelector('#success-copy').textContent = 'Thanks for applying. Ryan will personally review your application and follow up at the email you provided. If you are a fit, he offers times for a 30-minute Zoom consultation, confirms your chosen time and sends a Zoom invitation before agreement and payment. You have not been enrolled or charged.';
     }
     form.reset();
     document.querySelector('#success-title').focus();
