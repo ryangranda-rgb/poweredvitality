@@ -36,6 +36,8 @@ def build():
             source = source.replace('data-netlify="true"', 'data-preview-form="true"')
             source = source.replace('netlify-honeypot="bot-field"', 'data-preview-honeypot="bot-field"')
         else:
+            if page == 'index.html':
+                source = source.replace('<strong>Test proposal preview.</strong> Applications, signing and payment are not active.', 'Applications are open. Coaching enrollment follows a consultation and completed onboarding.', 1)
             source = source.replace('data-preview-only', 'data-preview-only hidden')
             if page == 'apply.html':
                 source = re.sub(r'  <div class="preview-note" id="preview-note">.*?</div></div>\n', '', source)
