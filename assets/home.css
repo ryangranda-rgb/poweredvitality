@@ -10,3 +10,8 @@
 /* Supplied photographs are preserved; these rules control only their page presentation. */
 .coach-avatar{display:block;width:44px;height:44px;border:1px solid #7a885e;border-radius:50%;overflow:hidden;flex-shrink:0}.coach-intro .coach-avatar img{width:100%;height:100%;border:0;border-radius:0;object-fit:cover;transform:scale(2.6);transform-origin:49% 24%}.training-card{margin:0;height:520px;min-width:0;padding:0;isolation:isolate}.training-card::before{display:none}.training-card>img{display:block;position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:55% 45%;z-index:-2}.training-card::after{content:"";position:absolute;inset:0;background:linear-gradient(180deg,rgba(9,12,9,.08) 30%,rgba(9,12,9,.85) 100%);z-index:-1}.training-card figcaption{position:absolute;bottom:30px;left:29px;right:22px}.training-card figcaption>.eyebrow{font-size:9px;letter-spacing:.15em;color:#efe8d3}.training-card figcaption p{font-size:58px;font-weight:800;letter-spacing:-.055em;line-height:1.04;margin-top:13px}.training-card figcaption p span{color:var(--gold)}
 @media(max-width:760px){.coach-avatar{width:42px;height:42px}.training-card{height:380px}.training-card figcaption{left:24px;bottom:25px}.training-card figcaption p{font-size:47px}.coach-portrait img{height:auto}}
+
+/* Official supplied wordmark; retain its complete artwork and original colors. */
+.brand-logo{display:block;width:150px;height:82px;object-fit:cover;border-radius:4px}
+.footer-top .brand-logo{width:140px;height:76px}
+@media(max-width:760px){.brand-logo{width:132px;height:72px}.footer-top .brand-logo{width:132px;height:72px}}
