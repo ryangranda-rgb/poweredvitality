@@ -3,32 +3,38 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <meta name="theme-color" content="#0d0d0d" />
+  <meta name="theme-color" content="#111310" />
   <meta name="robots" content="noindex,nofollow" />
   <title>Apply for online coaching | Powered Vitality</title>
   <meta name="description" content="Tell Ryan where you are starting. A short application for personal online fitness coaching, with no payment to apply." />
   <link rel="stylesheet" href="assets/flow.css" />
+  <link rel="stylesheet" href="assets/apply.css?v=20261020-2" />
   <script type="module" src="assets/application.js"></script>
 </head>
-<body>
+<body class="application-page">
   <a class="skip-link" href="#main">Skip to application</a>
-  <header class="flow-header"><div class="shell"><a class="brand" href="/" aria-label="Powered Vitality home">Powered <span>Vitality</span></a><a class="home-link" href="/">Back to site</a></div></header>
+  <header class="flow-header"><div class="shell"><a class="brand" href="/" aria-label="Powered Vitality home"><span class="brand-mark" aria-hidden="true">PV<span></span></span><span>POWERED<br /><b>VITALITY</b></span></a><a class="home-link" href="/">Back to site <span aria-hidden="true">↗</span></a></div></header>
   <div class="preview-note" id="preview-note"><div class="shell"><strong>Test preview.</strong> Nothing is sent, signed or charged. Use sample details.</div></div>
   <main id="main" class="shell layout">
     <div class="intro">
-      <p class="eyebrow">Your next chapter starts here</p>
+      <p class="eyebrow">PERSONAL ONLINE COACHING</p>
       <h1>A small step.<br /><em>A fresh start.</em></h1>
-      <p class="description">Tell me where you are and what you'd like to build. I'll personally review your application. If we're a fit, your next step is a 30-minute Zoom consultation before agreement and payment.</p>
-      <p class="hint">About 3 minutes · No payment to apply · No app download to apply</p>
-      <p class="offer-line"><strong>1-on-1 online coaching · $199/month</strong><br /><span class="hint">Training, general nutrition habits and personal accountability. No minimum commitment.</span></p>
+      <p class="description">Tell me about your goals. I’ll personally review your application and, if we’re a fit, arrange a 30-minute Zoom.</p>
+      <ul class="apply-facts" aria-label="Application basics"><li>About 3 minutes</li><li>No payment to apply</li><li>No app download</li></ul>
+      <div class="application-offer"><div><span>1-ON-1 ONLINE COACHING</span><strong>$199<small>/month</small></strong></div><p>Training, general nutrition habits and personal accountability. No minimum commitment.</p></div>
+      <details class="application-details"><summary>How getting started works</summary><div class="application-details-content">
+      <ol class="micro-path" aria-label="What happens next"><li><span>01</span> Apply in a few short steps</li><li><span>02</span> Ryan reviews your fit personally</li><li><span>03</span> 30-minute Zoom consultation</li><li><span>04</span> Agree on your start, then enroll</li></ol>
       <p class="intro-note">Jesus-centered encouragement is optional. All beliefs are welcome.</p>
       <p class="intro-note">Your coaching is delivered through Everfit. Ryan builds your personalized plan from your form answers and Zoom consultation. Once your plan is ready and your start date is confirmed, you’ll complete payment and receive your Everfit invitation for that start.</p>
-      <p class="intro-note" id="application-privacy-before">Before you begin: the live application uses Netlify for hosting and form storage, and Google/Gmail for application email handling. <a href="/application-privacy">Read the application privacy notice</a>. Please do not submit medical, injury or other sensitive health information.</p>
-      <ol class="micro-path" aria-label="What happens next"><li><span>01</span> Apply in a few short steps</li><li><span>02</span> Ryan reviews your fit personally</li><li><span>03</span> 30-minute Zoom consultation</li><li><span>04</span> Agree on your start, then enroll</li></ol>
+      </div></details>
+      <a class="btn apply-jump" href="#application-start">Start application <span aria-hidden="true">↓</span></a>
+      <a class="application-dm" href="https://ig.me/m/ryangrandafit" target="_blank" rel="noopener noreferrer">Prefer to chat? <b>DM me START</b> <span aria-hidden="true">↗</span></a>
     </div>
-    <div>
+    <div class="application-form-column" id="application-start">
+      <p class="application-privacy" id="application-privacy-before">Before you begin: the live application uses Netlify for hosting and form storage, and Google/Gmail for application email handling. <a href="/application-privacy">Read the application privacy notice</a>. Please do not submit medical, injury or other sensitive health information.</p>
       <noscript><div class="noscript"><h2>This application needs JavaScript.</h2><p>Please enable JavaScript to use the steps. You can also contact <a href="mailto:ryangrandafit@gmail.com">Ryan by email</a>. This preview cannot send applications.</p></div></noscript>
       <div class="card" id="application-card" hidden>
+        <p class="card-eyebrow">YOUR COACHING APPLICATION</p>
         <div id="wizard">
           <div class="progress-top"><span id="step-count">Step 1 of 4</span><span id="step-label">Your start</span></div>
           <div class="progress-track" role="progressbar" aria-label="Application progress" aria-valuemin="1" aria-valuemax="4" aria-valuenow="1" id="progress"><div class="progress-fill" id="progress-fill"></div></div>
