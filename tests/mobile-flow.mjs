@@ -23,17 +23,20 @@ async function newPage(width=390, options={}) {
 async function firstStep(page) {
   await page.getByLabel('Your name', {exact:true}).fill('Preview Applicant');
   await page.getByLabel('Email address', {exact:true}).fill('preview@example.com');
-  await page.getByLabel('Where are you starting?', {exact:true}).selectOption({label:'Restarting after time away'});
-  await page.getByLabel('What is your main goal?', {exact:true}).selectOption({label:'Build a consistent routine'});
   await page.getByLabel('I am 18 or older.', {exact:true}).check();
   await page.getByRole('button', {name:'Continue'}).click();
 }
 async function fillAll(page) {
   await firstStep(page);
+  await page.getByLabel('What is your main goal?', {exact:true}).selectOption({label:'Build a consistent routine'});
+  await page.getByLabel('What gets in the way most?', {exact:true}).selectOption({label:'Finding time'});
+  await page.getByLabel('When would you like to start coaching?', {exact:true}).selectOption({label:'Within the next month'});
+  await page.getByRole('button', {name:'Continue'}).click();
+  await page.locator('.optional-questions summary').click();
+  await page.getByLabel('Where are you starting?', {exact:false}).selectOption({label:'Restarting after time away'});
   await page.getByLabel('3 days', {exact:true}).check();
   await page.getByLabel('What does your routine look like?', {exact:false}).selectOption({label:'Mostly walking or everyday movement'});
   await page.getByLabel('Where would you train?', {exact:false}).selectOption({label:'Home with some equipment'});
-  await page.getByRole('button', {name:'Continue'}).click();
   await page.getByLabel('Yes, this feels workable', {exact:true}).check();
   await page.getByLabel('Why coaching, and why now?', {exact:false}).selectOption({label:"I'd like personal accountability"});
   await page.getByRole('button', {name:'Continue'}).click();
@@ -74,24 +77,35 @@ try {
     await page.getByRole('button',{name:'Continue'}).click();
     assert.equal(await page.evaluate(()=>document.activeElement.id),'email');
   });
-  await check('Back/Forward preserve answers, required radio group validates', async () => {
+  await check('Three core prompts validate; optional enrichment and Back/Forward preserve answers', async () => {
     await firstStep(page);
     await page.getByRole('button',{name:'Continue'}).click();
-    assert(await page.locator('#days-error').isVisible());
+    assert(await page.locator('#goal-error').isVisible());
+    assert(await page.locator('#barrier-error').isVisible());
+    assert(await page.locator('#readiness-error').isVisible());
+    await page.locator('#goal').selectOption('Build a consistent routine');
+    await page.locator('#barrier').selectOption('Finding time');
+    await page.locator('#readiness').selectOption('Not sure yet — discuss on the call');
+    await page.getByRole('button',{name:'Continue'}).click();
+    assert(!(await page.locator('.optional-questions').evaluate(element=>element.open)));
+    assert.equal(await page.locator('#experience').getAttribute('required'),null);
+    assert.equal(await page.locator('[name="days"][required]').count(),0);
+    await page.locator('.optional-questions summary').click();
+    await page.locator('#experience').selectOption('Restarting after time away');
     await page.getByLabel('3 days',{exact:true}).check();
-    await page.getByLabel('What does your routine look like?',{exact:false}).selectOption({label:'No routine yet'});
+    await page.locator('#routine').selectOption('No routine yet');
     await page.getByRole('button',{name:'Back',exact:true}).click();
-    assert.equal(await page.locator('#name').inputValue(),'Preview Applicant');
+    assert.equal(await page.locator('#goal').inputValue(),'Build a consistent routine');
     await page.goBack();
-    assert(await page.locator('[data-step="1"]').isVisible());
+    assert(await page.locator('[data-step="2"]').isVisible());
     assert(await page.getByLabel('3 days',{exact:true}).isChecked());
     assert.equal(await page.locator('#routine').inputValue(),'No routine yet');
     await page.goForward();
-    assert(await page.locator('[data-step="0"]').isVisible());
+    assert(await page.locator('[data-step="1"]').isVisible());
   });
   await check('Reload persists only allowed choices and clears identifying/written answers', async () => {
     const stored = await page.evaluate(()=>JSON.parse(sessionStorage.getItem('pv-application-choices-v2')));
-    assert.deepEqual(Object.keys(stored), ['experience','goal','days','routine','equipment','schedule','barrier','nutrition','reason','budget']);
+    assert.deepEqual(Object.keys(stored), ['experience','goal','days','routine','equipment','schedule','barrier','nutrition','reason','readiness','budget']);
     assert(!JSON.stringify(stored).includes('Preview Applicant'));
     assert(!Object.keys(stored).includes('adult'));
     await page.reload();
@@ -150,14 +164,6 @@ try {
     await keyboard.keyboard.press('Tab');
     assert.equal(await keyboard.evaluate(()=>document.activeElement.id),'instagram');
     await keyboard.keyboard.press('Tab');
-    assert.equal(await keyboard.evaluate(()=>document.activeElement.id),'experience');
-    await keyboard.locator('#experience').selectOption({label:'Starting fresh'});
-    await keyboard.keyboard.press('Tab');
-    assert.equal(await keyboard.evaluate(()=>document.activeElement.id),'goal');
-    await keyboard.locator('#goal').selectOption({label:'Build a consistent routine'});
-    assert(await keyboard.locator('#experience').inputValue());
-    assert(await keyboard.locator('#goal').inputValue());
-    await keyboard.keyboard.press('Tab');
     assert.equal(await keyboard.evaluate(()=>document.activeElement.id),'adult');
     await keyboard.keyboard.press('Space');
     assert(await keyboard.locator('#adult').isChecked());
@@ -188,17 +194,20 @@ try {
     assert((await gates.locator('.state-pill').textContent()).includes('0 of 6'));
     await gates.goto(base+'/');
     assert.equal(await gates.locator('a[href*="buy.stripe.com"]').count(),0);
-    assert.equal(await gates.locator('a.btn-solid[href="/apply"]').count(),4);
+    const primaryLinks=gates.locator('.nav-links .button, .hero .actions .button:not(.button-outline), .offer-line .text-link, .contact-primary .button, .mobile-actions .button:not(.button-outline)');
+    assert.equal(await primaryLinks.count(),5);
+    for(const link of await primaryLinks.all()) assert.equal(await link.getAttribute('href'),'/apply');
+    assert(!(await gates.locator('body').textContent()).includes('No payment or application needed.'));
   });await gates.context().close();
   const consultation=await newPage();await consultation.goto(base+'/start');
-  await check('6-stage journey explains manual Zoom scheduling before enrollment without confirming progress',async()=>{
+  await check('6-stage journey explains private consultation invitation after personal review',async()=>{
     const titles=await consultation.locator('.stage-title').allTextContents();
     const expected=['Apply for coaching','Ryan reviews your fit','30-minute Zoom consultation','Agreement & enrollment','Complete private onboarding','Starting plan & 1st check-in'];
     assert.equal(titles.length,6);expected.forEach((title,index)=>assert(titles[index].startsWith(title)));
     assert.equal(await consultation.locator('#consultation-booking').count(),0);
-    assert((await consultation.locator('#consultation-status').textContent()).includes('Ryan schedules with you by email'));
+    assert((await consultation.locator('#consultation-status').textContent()).includes('Ryan invites you after review'));
     const scheduling=await consultation.locator('#consultation-scheduling li').allTextContents();
-    assert.deepEqual(scheduling,['Ryan offers times from his schedule.','Reply with your chosen time and time zone.','Ryan confirms the date, time and time zone, then sends your Zoom invitation.']);
+    assert.deepEqual(scheduling,['Ryan reviews your fit and shares private booking details.','Choose from the offered times and check your time zone.','Check your confirmation for the date, time, time zone and Zoom link.']);
     assert((await consultation.locator('#consultation-gate').textContent()).includes('does not schedule a call or send an invitation'));
     assert.equal(await consultation.locator('a[href*="calendly.com"]').count(),0);
     assert.equal(await consultation.locator('iframe[src*="calendly.com"]').count(),0);
@@ -212,7 +221,7 @@ try {
   const manual=await newPage(390,{javaScriptEnabled:false});await manual.goto(base+'/start');
   await check('Manual scheduling is accessible without JavaScript and has no booking provider or activation script',async()=>{
     assert(await manual.locator('#consultation-scheduling').isVisible());
-    assert((await manual.locator('#consultation-status').textContent()).includes('Ryan schedules with you by email'));
+    assert((await manual.locator('#consultation-status').textContent()).includes('Ryan invites you after review'));
     assert.equal(await manual.locator('#consultation-stage button, #consultation-stage iframe, #consultation-stage a').count(),0);
     assert.equal(await manual.locator('script[src*="consultation"]').count(),0);
     assert.equal(await manual.locator('a[href*="calendly.com"], iframe[src*="calendly.com"]').count(),0);
@@ -246,7 +255,7 @@ try {
       await fillAll(live);await live.locator('#submit').click();
       if(status===200) {await live.waitForSelector('#success:not([hidden])');assert((await live.locator('#success-eyebrow').textContent()).includes('Application received'));}
       else {await live.waitForSelector('#form-error:not([hidden])');assert(!(await live.locator('#success').isVisible()));assert.equal(await live.locator('#name').inputValue(),'Preview Applicant');}
-      const body=new URLSearchParams(received);assert.equal(body.get('form-name'),'coaching-application');assert.equal(body.get('email'),'preview@example.com');assert(body.get('application-id'));assert.equal(body.get('bot-field'),'');assert.equal(body.get('adult'),'18-or-older');assert.equal(body.get('application-version'),'2026-10-07-v2');
+      const body=new URLSearchParams(received);assert.equal(body.get('form-name'),'coaching-application');assert.equal(body.get('email'),'preview@example.com');assert(body.get('application-id'));assert.equal(body.get('bot-field'),'');assert.equal(body.get('adult'),'18-or-older');assert.equal(body.get('application-version'),'2026-10-22-v3');assert.equal(body.get('barrier'),'Finding time');assert.equal(body.get('readiness'),'Within the next month');assert.equal(body.get('experience'),'Restarting after time away');assert.equal(body.get('days'),'3');
     });await live.context().close();
   }
   await check('No uncaught JavaScript errors',async()=>assert.deepEqual(errors,[]));

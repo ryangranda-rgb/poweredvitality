@@ -20,10 +20,12 @@ async function pageAt(width=390, headers={}) {
 async function fill(page) {
   await page.locator('#name').fill('TEST ONLY — not a real prospect');
   await page.locator('#email').fill('ryangrandafit@gmail.com');
-  await page.locator('#experience').selectOption('Starting fresh');
-  await page.locator('#goal').selectOption('Build a consistent routine');
   await page.locator('#adult').check();await page.locator('#next').click();
-  await page.getByLabel('3 days',{exact:true}).check();await page.locator('#next').click();
+  await page.locator('#goal').selectOption('Build a consistent routine');
+  await page.locator('#barrier').selectOption('Finding time');
+  await page.locator('#readiness').selectOption('Within the next month');
+  await page.locator('#next').click();
+  assert(!(await page.locator('.optional-questions').evaluate(element=>element.open)));
   await page.getByLabel('Yes, this feels workable',{exact:true}).check();await page.locator('#next').click();
 }
 try {
@@ -43,7 +45,8 @@ try {
         }
         if(route==='/application-privacy') {
           const content=await page.locator('#main').textContent();
-          for(const text of ['Powered Vitality LLC','Union City, California','Effective date: October 7, 2026','Google/Gmail','Netlify Forms','Do Not Track','required retention','revised effective date']) assert(content.includes(text),text);
+          for(const text of ['Powered Vitality LLC','Union City, California','Effective date: October 22, 2026','preferred start timing','optional details','Google/Gmail','Netlify Forms','review coaching fit first','privately shares booking details','does not book a consultation automatically','If Ryan invites you to book through Calendly','optional booking note','does not send your application answers to Calendly','Do Not Track','required retention','revised effective date']) assert(content.includes(text),text);
+          assert.equal(await page.locator('a[href="https://calendly.com/legal/privacy-notice"]').count(),1);
           assert(!content.includes('HIPAA'));assert(!content.includes('Jotform'));
           if(width===390) await page.screenshot({path:path.join(output,'production-privacy-mobile.png'),fullPage:true});
         }
@@ -91,7 +94,9 @@ try {
         assert.equal(count,1);
       }
       assert.equal(count,1);assert.equal(payload.get('email'),'ryangrandafit@gmail.com');
-      assert.equal(payload.get('adult'),'18-or-older');assert.equal(payload.get('application-version'),'2026-10-07-v2');
+      assert.equal(payload.get('adult'),'18-or-older');assert.equal(payload.get('application-version'),'2026-10-22-v3');
+      assert.equal(payload.get('goal'),'Build a consistent routine');assert.equal(payload.get('barrier'),'Finding time');assert.equal(payload.get('readiness'),'Within the next month');
+      assert.equal(payload.get('experience'),'');assert.equal(payload.get('days'),'');
       assert(!payload.has('diagnosis'));assert(!payload.has('encouragement'));assert(!payload.has('limitations'));
     });await page.context().close();
   }

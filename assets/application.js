@@ -2,8 +2,8 @@ import { applicationConfig as config } from './application-config.js';
 
 const form = document.querySelector('#application');
 const steps = [...document.querySelectorAll('[data-step]')];
-const stepLabels = ['Your start', 'Your week', 'Your support', 'Review'];
-const safeFields = ['experience', 'goal', 'days', 'routine', 'equipment', 'schedule', 'barrier', 'nutrition', 'reason', 'budget'];
+const stepLabels = ['Your start', 'Your goals', 'Your support', 'Review'];
+const safeFields = ['experience', 'goal', 'days', 'routine', 'equipment', 'schedule', 'barrier', 'nutrition', 'reason', 'readiness', 'budget'];
 const storageKey = 'pv-application-choices-v2';
 const publicFields = ['form-name', 'application-id', 'application-version', 'subject', 'bot-field', 'name', 'email', 'instagram', 'adult', ...safeFields];
 const next = document.querySelector('#next');
@@ -61,11 +61,13 @@ function validate(index) {
     if (!values.name.trim()) fail('name', 'Please enter your name.');
     if (!values.email.trim() || !form.elements.email.validity.valid) fail('email', 'Please enter a valid email address, like you@example.com.');
     if (values.instagram && !form.elements.instagram.validity.valid) fail('instagram', 'Use your Instagram handle only, like @yourhandle, or leave it blank.');
-    if (!values.experience) fail('experience', 'Choose your starting point.');
-    if (!values.goal) fail('goal', 'Choose your main goal.');
     if (values.adult !== '18-or-older') fail('adult', 'This application is for adults. Please confirm you are 18 or older.');
   }
-  if (index === 1 && !values.days) fail('days', 'Choose a realistic number of days, or “Not sure.”');
+  if (index === 1) {
+    if (!values.goal) fail('goal', 'Choose your main goal.');
+    if (!values.barrier) fail('barrier', 'Choose your biggest obstacle, or talk it through with Ryan.');
+    if (!values.readiness) fail('readiness', 'Choose your timing, or discuss it on the call.');
+  }
   if (index === 2 && !values.budget) fail('budget', 'Choose the answer that feels right for you.');
   if (first) { first.focus(); return false; }
   return true;
@@ -73,9 +75,9 @@ function validate(index) {
 function renderReview() {
   const values = readAnswers();
   const groups = [
-    ['Your start', 0, [['name', 'Name'], ['email', 'Email'], ['instagram', 'Instagram'], ['experience', 'Starting point'], ['goal', 'Main goal'], ['adult', 'Adult confirmation']]],
-    ['Your week', 1, [['days', 'Days per week'], ['routine', 'Current routine'], ['equipment', 'Training space'], ['schedule', 'Schedule']]],
-    ['Your support', 2, [['barrier', 'Consistency barrier'], ['nutrition', 'General eating-habit support'], ['reason', 'Why coaching now'], ['budget', '$199/month']]],
+    ['Your start', 0, [['name', 'Name'], ['email', 'Email'], ['instagram', 'Instagram'], ['adult', 'Adult confirmation']]],
+    ['Your goals', 1, [['goal', 'Main goal'], ['barrier', 'Biggest obstacle'], ['readiness', 'Preferred start timing']]],
+    ['Your support', 2, [['budget', '$199/month'], ['experience', 'Starting point'], ['days', 'Days per week'], ['routine', 'Current routine'], ['equipment', 'Training space'], ['schedule', 'Schedule'], ['nutrition', 'General eating-habit support'], ['reason', 'Why coaching now']]],
   ];
   const review = document.querySelector('#review');
   review.replaceChildren();
@@ -174,7 +176,7 @@ form.addEventListener('submit', async event => {
     document.querySelector('#success').hidden = false;
     if (!result.preview) {
       document.querySelector('#success-eyebrow').textContent = 'Application received';
-      document.querySelector('#success-copy').textContent = 'Thanks for applying. Ryan will personally review your application and follow up at the email you provided. If you are a fit, he offers times for a 30-minute Zoom consultation, confirms your chosen time and sends a Zoom invitation before agreement and payment. You have not been enrolled or charged.';
+      document.querySelector('#success-copy').textContent = 'Thanks for applying. Ryan will personally review your application and follow up at the email you provided. If you are a fit, he invites you to a 30-minute Zoom consultation and shares the booking details directly before agreement and payment. You have not been enrolled or charged.';
     }
     form.reset();
     document.querySelector('#success-title').focus();
