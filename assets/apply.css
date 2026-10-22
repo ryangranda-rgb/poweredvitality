@@ -1,7 +1,9 @@
-/* Application-only styling, aligned with the Powered Vitality homepage. */
-:root{--bg:#111310;--panel:#1b1f19;--text:#f4f3e9;--gold:#e8c45b;--muted:#b4bbac;--line:#363d31;--sans:-apple-system,BlinkMacSystemFont,"Segoe UI",Arial,sans-serif;--cond:var(--sans);--serif:var(--sans)}
+@font-face{font-family:Barlow;font-style:normal;font-weight:400;font-display:swap;src:url("/assets/fonts/Barlow-Regular.ttf") format("truetype")}
+@font-face{font-family:Barlow;font-style:normal;font-weight:500 900;font-display:swap;src:url("/assets/fonts/Barlow-Bold.ttf") format("truetype")}
+/* Application-only styling, aligned with the Granda Strength homepage. */
+:root{--bg:#0d0d0d;--panel:#191816;--text:#f5f2eb;--gold:#d4a017;--muted:#b7afa1;--line:#36322b;--sans:"Barlow",Arial,sans-serif;--cond:var(--sans);--serif:var(--sans)}
 html{scroll-padding-top:108px}
-.application-page{font-family:var(--sans);background:radial-gradient(ellipse at 10% 15%,#2c342044,transparent 45%),var(--bg)}
+.application-page{font-family:var(--sans);background:radial-gradient(ellipse at 10% 15%,#4a391744,transparent 45%),var(--bg)}
 .application-page h1,.application-page h2,.application-page h3{font-family:var(--sans);font-weight:750;letter-spacing:-.045em;line-height:1.12}
 .application-page em{font-style:normal;font-weight:inherit}
 .application-page .shell{width:min(1160px,calc(100% - 72px))}
@@ -52,29 +54,29 @@ html{scroll-padding-top:108px}
 .application-page .optional{font-size:11px}
 .application-page .hint{font-size:11px;line-height:1.65;margin-top:8px}
 .application-page .field{margin-bottom:24px}
-.application-page input:not([type=radio]):not([type=checkbox]),.application-page select,.application-page textarea{min-height:53px;border-color:#69715e;background:#11170e;border-radius:5px;padding:13px;font-size:16px}
+.application-page input:not([type=radio]):not([type=checkbox]),.application-page select,.application-page textarea{min-height:53px;border-color:#777064;background:#131210;border-radius:5px;padding:13px;font-size:16px}
 .application-page input::placeholder{color:#9ba58f}
-.application-page .choice{min-height:53px;border-color:#69715e;background:#171c14;border-radius:5px;font-size:13px;font-weight:400;margin:0;line-height:1.5}
-.application-page .choice:has(input:checked){background:#2d3821;border-color:var(--gold)}
+.application-page .choice{min-height:53px;border-color:#777064;background:#171613;border-radius:5px;font-size:13px;font-weight:400;margin:0;line-height:1.5}
+.application-page .choice:has(input:checked){background:#342b18;border-color:var(--gold)}
 .application-page .days .choice{font-size:12px;min-height:52px}
 .application-page .btn{min-height:53px;border-radius:4px;font:700 13px/1.35 var(--sans);text-transform:none;letter-spacing:0;gap:18px;padding:15px 20px}
-.application-page .btn:hover:not(:disabled){background:#f5d477}
-.application-page .btn-secondary{background:transparent;border-color:#69715e}
-.application-page .btn-secondary:hover:not(:disabled){background:#252a20}
-.application-page .btn:disabled{background:#2a3025;border-color:#69715e;color:#c0c7b8}
+.application-page .btn:hover:not(:disabled){background:#e6b52c}
+.application-page .btn-secondary{background:transparent;border-color:#777064}
+.application-page .btn-secondary:hover:not(:disabled){background:#28251e}
+.application-page .btn:disabled{background:#2a3025;border-color:#777064;color:#c0c7b8}
 .application-page .actions{margin-top:28px}
 .application-page .privacy-help{font-size:10px;line-height:1.7;margin-top:19px}
 .application-page .text-button{font-size:12px}
 .application-page .review-title h3{font-size:17px;font-weight:650;letter-spacing:-.02em}
 .application-page .review-block dt{font-size:11px}
 .application-page .review-block dd{font-size:14px;line-height:1.6}
-.application-page .data-note{background:#252e1e;border-color:var(--gold);font-size:12px;line-height:1.7;border-radius:0 4px 4px 0}
+.application-page .data-note{background:#292419;border-color:var(--gold);font-size:12px;line-height:1.7;border-radius:0 4px 4px 0}
 .application-page .error{font-size:12px}
 .application-page .invalid input:not([type=radio]),.application-page .invalid select,.application-page .invalid .choice{border-color:var(--error)}
 .application-page .form-error{font-size:13px;line-height:1.65;border-radius:4px}
 .application-page .success-panel h2{font-size:34px;font-weight:750}
 .application-page .success-panel p,.application-page .success-panel ol{font-size:14px;line-height:1.7}
-.application-page .flow-footer{font-size:11px;background:#111310}
+.application-page .flow-footer{font-size:11px;background:#0d0d0d}
 @media(max-width:1050px) and (min-width:801px){.application-page .layout{gap:35px;grid-template-columns:minmax(0,.85fr) minmax(0,1.2fr)}.application-page .shell{width:calc(100% - 48px)}.application-page .card{padding:25px}.application-offer>div{align-items:flex-start;flex-direction:column;gap:9px}}
 @media(max-width:800px){
   html{scroll-padding-top:92px}
