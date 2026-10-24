@@ -17,18 +17,26 @@ html{scroll-padding-top:108px}
 .application-page .home-link{gap:12px;font-size:13px;text-decoration:none;color:var(--muted)}
 .application-page .home-link:hover{color:var(--gold)}
 .application-page .layout{grid-template-columns:minmax(0,.9fr) minmax(0,1.15fr);gap:70px;padding-block:56px 72px}
-.application-page .intro{top:120px}
+.application-page .intro{position:static}
 .application-page .eyebrow{font-size:10px;font-weight:750;letter-spacing:.15em}
 .application-page .intro h1{font-size:clamp(44px,4.6vw,64px);font-weight:800;line-height:1.04;letter-spacing:-.055em;margin:18px 0 22px}
 .application-page .intro .description{font-size:16px;line-height:1.7;max-width:440px;margin-bottom:20px}
 .apply-facts{display:flex;flex-wrap:wrap;gap:7px;list-style:none;margin:0 0 25px;padding:0}
 .apply-facts li{font-size:10px;border:1px solid #4d5743;border-radius:30px;padding:5px 10px;color:#c5cebb}
-.application-offer{padding:20px 0;border-block:1px solid var(--line);margin-bottom:10px}
-.application-offer>div{display:flex;justify-content:space-between;align-items:center;gap:15px}
-.application-offer span{font-size:9px;font-weight:700;letter-spacing:.1em;color:var(--muted)}
-.application-offer strong{font-size:28px;line-height:1.2;font-weight:750;letter-spacing:-.035em;white-space:nowrap}
-.application-offer small{font-size:12px;letter-spacing:0;font-weight:400;color:var(--muted);margin-left:3px}
-.application-offer p{font-size:12px;line-height:1.65;color:var(--muted);margin:12px 0 0}
+.application-rate-link{display:inline-flex;align-items:center;gap:10px;min-height:44px;font-size:13px;color:var(--muted);margin:-12px 0 12px}
+.application-rate-link:hover{color:var(--gold)}
+.application-inclusions{padding:24px 0 10px;border-top:1px solid var(--line)}
+.application-page .application-inclusions h2{font-size:25px;line-height:1.2;margin:10px 0 22px;letter-spacing:-.025em}
+.inclusions-list{list-style:none;padding:0;margin:0;display:grid;gap:18px}
+.inclusions-list li{position:relative;padding-left:22px}
+.inclusions-list li::before{content:'✓';position:absolute;left:0;top:1px;color:var(--gold);font-size:13px}
+.application-page .inclusions-list h3{font-size:15px;letter-spacing:0;line-height:1.4}
+.inclusions-list p{font-size:14px;line-height:1.6;color:var(--muted);margin:5px 0 0}
+.application-details{margin-top:14px}
+.application-rate{margin-top:24px;padding:20px 0 0;border-top:1px solid var(--line);scroll-margin-top:108px}
+.application-page .application-rate h2{font-size:16px;line-height:1.4;letter-spacing:0;margin:0 0 10px}
+.application-rate p{font-size:14px;line-height:1.65;color:var(--muted);margin:0 0 10px}
+.application-rate strong{font-size:inherit;font-weight:700;color:var(--text)}
 .application-details{border-bottom:1px solid var(--line)}
 .application-details>summary{min-height:49px;font-size:13px;font-weight:600;padding:13px 2px;justify-content:space-between}
 .application-details>summary::after{font-size:20px}
@@ -77,7 +85,7 @@ html{scroll-padding-top:108px}
 .application-page .success-panel h2{font-size:34px;font-weight:750}
 .application-page .success-panel p,.application-page .success-panel ol{font-size:14px;line-height:1.7}
 .application-page .flow-footer{font-size:11px;background:#0d0d0d}
-@media(max-width:1050px) and (min-width:801px){.application-page .layout{gap:35px;grid-template-columns:minmax(0,.85fr) minmax(0,1.2fr)}.application-page .shell{width:calc(100% - 48px)}.application-page .card{padding:25px}.application-offer>div{align-items:flex-start;flex-direction:column;gap:9px}}
+@media(max-width:1050px) and (min-width:801px){.application-page .layout{gap:35px;grid-template-columns:minmax(0,.85fr) minmax(0,1.2fr)}.application-page .shell{width:calc(100% - 48px)}.application-page .card{padding:25px}}
 @media(max-width:800px){
   html{scroll-padding-top:92px}
   .application-page .shell{width:calc(100% - 40px)}
@@ -92,10 +100,8 @@ html{scroll-padding-top:108px}
   .application-page .intro .description{font-size:14px;line-height:1.7;margin-bottom:17px}
   .apply-facts{gap:6px;margin-bottom:20px}
   .apply-facts li{font-size:9px;padding:4px 9px}
-  .application-offer{padding:16px 0;margin-bottom:5px}
-  .application-offer strong{font-size:25px}
-  .application-offer span{font-size:8px}
-  .application-offer p{font-size:11px;margin-top:10px}
+  .application-inclusions{padding-top:20px}
+  .application-rate{scroll-margin-top:92px}
   .application-page .apply-jump{display:flex;justify-content:space-between;width:100%;margin-top:18px}
   .application-dm{font-size:11px;min-height:45px;padding-block:12px}
   .application-privacy{font-size:11px;line-height:1.8;margin-bottom:17px;padding-left:11px}
@@ -106,4 +112,4 @@ html{scroll-padding-top:108px}
   .application-page .step-names{font-size:9px;margin-bottom:27px}
   .application-page .flow-footer .shell{gap:5px}
 }
-@media(max-width:360px){.application-page .card{padding:22px 16px}.application-page .brand{font-size:10px}.application-page .home-link{font-size:11px}.application-offer>div{gap:8px}.application-offer strong{font-size:23px}.application-offer small{font-size:10px}.application-page .step-names{font-size:8px}.application-page .days .choice{font-size:11px}}
+@media(max-width:360px){.application-page .card{padding:22px 16px}.application-page .brand{font-size:10px}.application-page .home-link{font-size:11px}.application-page .step-names{font-size:8px}.application-page .days .choice{font-size:11px}}
