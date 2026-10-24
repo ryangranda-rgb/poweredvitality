@@ -1,0 +1,44 @@
+/* Client-supplied images retain their original pixels and proportions. */
+.client-stories{background:linear-gradient(180deg,#171510, var(--bg) 65%)}
+.stories-heading{display:flex;align-items:flex-end;justify-content:space-between;gap:40px;margin-bottom:32px}
+.stories-heading h2{margin-bottom:0}
+.stories-heading>p{max-width:350px;font-size:16px;color:var(--muted);padding-bottom:3px}
+.progress-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:22px}
+.progress-card{display:flex;flex-direction:column;margin:0;min-width:0;background:var(--surface);border:1px solid var(--line);border-radius:7px;overflow:hidden}
+.progress-labels{display:grid;grid-template-columns:1fr 1fr;text-align:center;padding:11px 0;color:var(--gold);font-size:11px;font-weight:700;letter-spacing:.14em}
+.progress-labels>span+span{border-left:1px solid var(--line)}
+.story-image-link{display:block}
+.progress-card .story-image-link{aspect-ratio:1;display:grid;place-items:center;background:#111;overflow:hidden}
+.progress-card img{width:100%;height:100%;display:block;object-fit:contain}
+.progress-name{grid-template-columns:1fr}
+.progress-card figcaption{margin-top:auto}
+.progress-card figcaption{display:flex;justify-content:space-between;gap:12px;align-items:center;padding:13px 17px;font-size:10px;letter-spacing:.06em;color:var(--muted)}
+.progress-card figcaption>span:last-child{color:var(--gold);letter-spacing:0;font-size:12px}
+.testimonial-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:18px;margin-top:24px}
+.testimonial-card{display:flex;flex-direction:column;align-items:flex-start;min-width:0;margin:0;padding:25px 24px;background:var(--surface);border:1px solid var(--line);border-top:2px solid var(--gold);border-radius:5px}
+.story-topic{color:var(--gold);font-size:10px;letter-spacing:.1em;font-weight:700}
+.testimonial-card blockquote{margin:21px 0 25px;font-size:19px;line-height:1.5;overflow-wrap:anywhere}
+.testimonial-card:first-child blockquote{font-size:17px;line-height:1.65}
+.testimonial-card figcaption{margin-top:auto;font-size:13px;font-weight:700;overflow-wrap:anywhere}
+.testimonial-card figcaption span{display:block;font-size:11px;color:var(--muted);font-weight:400;margin-top:3px}
+.story-source{display:inline-flex;align-items:center;gap:9px;min-height:44px;color:var(--gold);font-size:12px;text-decoration:underline;text-underline-offset:4px;margin-top:7px}
+.coaching-gallery{margin-top:28px;border-top:1px solid var(--line)}
+.coaching-gallery>summary{font-size:15px}
+.coaching-gallery-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:22px;padding:7px 0 25px}
+.coaching-gallery-grid figure{margin:0;min-width:0}
+.coaching-gallery-grid img{display:block;width:100%;height:380px;object-fit:contain;background:#171613;border:1px solid var(--line);border-radius:5px}
+.coaching-gallery-grid figcaption{font-size:12px;color:var(--muted);margin-top:10px}
+.stories-footer{display:flex;align-items:center;justify-content:space-between;gap:28px;margin-top:25px}
+.stories-footer>p{font-size:12px;color:var(--muted);max-width:520px}
+.stories-footer>.button{flex-shrink:0}
+.story-dialog{padding:0;width:min(900px,calc(100% - 32px));max-height:calc(100dvh - 36px);border:1px solid #6e603f;border-radius:8px;background:var(--bg);color:var(--ink)}
+.story-dialog::backdrop{background:rgba(0,0,0,.88)}
+.story-dialog-toolbar{display:flex;justify-content:space-between;align-items:center;gap:18px;padding:12px 20px;border-bottom:1px solid var(--line);position:sticky;top:0;background:var(--bg)}
+.story-dialog-toolbar h2{font-size:15px;line-height:1.4;letter-spacing:0;margin:0;font-weight:500}
+.story-dialog-close{display:flex;align-items:center;gap:12px;min-height:44px;padding:7px 12px;background:var(--surface);color:var(--ink);border:1px solid var(--line);border-radius:4px;cursor:pointer;font:600 13px var(--font);flex-shrink:0}
+.story-dialog-close>span{font-size:24px;font-weight:400}
+.story-dialog-close:focus-visible{outline:3px solid var(--gold);outline-offset:2px}
+.story-dialog-content{padding:16px;overflow:auto}
+.story-dialog-content img{display:block;max-width:100%;height:auto;margin:auto;max-height:calc(100dvh - 150px);object-fit:contain}
+@media(max-width:900px){.stories-heading{gap:25px}.stories-heading>p{max-width:290px}.testimonial-card{padding:22px 19px}.testimonial-card blockquote{font-size:17px}.testimonial-card:first-child blockquote{font-size:16px}.coaching-gallery-grid img{height:300px}}
+@media(max-width:760px){.stories-heading{display:block;margin-bottom:25px}.stories-heading>p{max-width:100%;font-size:15px;padding:0;margin-top:20px}.progress-grid{grid-template-columns:1fr;gap:20px}.progress-labels{font-size:10px;padding:10px 0}.progress-card figcaption{padding:12px 14px;font-size:9px}.progress-card figcaption>span:last-child{font-size:11px}.testimonial-grid{grid-template-columns:1fr;gap:14px;margin-top:22px}.testimonial-card{padding:22px}.testimonial-card blockquote{font-size:19px;margin:17px 0 20px}.testimonial-card:first-child blockquote{font-size:17px}.coaching-gallery-grid{grid-template-columns:1fr;gap:25px}.coaching-gallery-grid img{height:auto;max-height:540px;object-fit:contain}.stories-footer{align-items:stretch;flex-direction:column;gap:21px}.stories-footer>.button{justify-content:space-between}.story-dialog-toolbar{padding:9px 12px}.story-dialog-toolbar h2{font-size:12px}.story-dialog-content{padding:10px}}
