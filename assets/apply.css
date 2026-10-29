@@ -113,3 +113,30 @@ html{scroll-padding-top:108px}
   .application-page .flow-footer .shell{gap:5px}
 }
 @media(max-width:360px){.application-page .card{padding:22px 16px}.application-page .brand{font-size:10px}.application-page .home-link{font-size:11px}.application-page .step-names{font-size:8px}.application-page .days .choice{font-size:11px}}
+
+/* Same quiet polish as the homepage, scoped to the application. */
+.application-page{color-scheme:dark;background:radial-gradient(880px 420px at 0% -10%,rgba(212,160,23,.13),transparent 56%),radial-gradient(640px 360px at 100% 8%,rgba(74,57,23,.34),transparent 52%),var(--bg)}
+.application-page .flow-header{-webkit-backdrop-filter:blur(12px);backdrop-filter:blur(12px);border-bottom:1px solid rgba(212,160,23,.28)}
+.application-page .home-link{display:inline-flex;align-items:center;min-height:44px;padding-inline:4px;transition:color .18s ease}
+.application-page .home-link:focus-visible,.application-page .home-link:active{color:var(--gold)}
+.application-page .intro h1::after{content:"";display:block;width:56px;height:2px;margin-top:14px;background:linear-gradient(90deg,var(--gold),transparent)}
+.application-page .card{box-shadow:inset 0 2px 0 rgba(212,160,23,.9),0 18px 48px rgba(0,0,0,.28);transition:border-color .2s ease,box-shadow .2s ease}
+.application-page .card:focus-within{border-color:#8a7340;box-shadow:inset 0 2px 0 rgba(212,160,23,.9),0 18px 48px rgba(0,0,0,.28),0 0 0 1px rgba(212,160,23,.35)}
+.application-page .btn{touch-action:manipulation;box-shadow:inset 0 1px 0 rgba(255,255,255,.22);transition:background-color .18s ease,border-color .18s ease,box-shadow .18s ease}
+.application-page .btn:focus-visible{outline:3px solid #f6f1e4;outline-offset:3px}
+.application-page .btn:active:not(:disabled){background:#c99612}
+.application-page .btn-secondary:active:not(:disabled){background:#2c291f}
+.application-page .choice:focus-within{outline:3px solid var(--gold);outline-offset:2px}
+.application-page .choice input:focus-visible{outline:none}
+.application-page input:not([type=checkbox]):not([type=radio]):focus-visible,.application-page select:focus-visible,.application-page textarea:focus-visible{border-color:var(--gold);outline:3px solid rgba(212,160,23,.55);outline-offset:2px}
+@media (hover:hover) and (pointer:fine){
+  .application-page .btn:hover:not(:disabled){background:#e6b52c;box-shadow:inset 0 1px 0 rgba(255,255,255,.28),0 10px 22px rgba(0,0,0,.25)}
+  .application-page .btn-secondary:hover:not(:disabled){background:#28251e;border-color:#a89872}
+  .application-page .home-link:hover{color:var(--gold)}
+}
+@media (max-width:800px){
+  .application-page .brand-logo{width:64px;height:64px}
+}
+@media (prefers-reduced-motion:reduce){
+  .application-page .btn,.application-page .card,.application-page .home-link{transition:none}
+}
