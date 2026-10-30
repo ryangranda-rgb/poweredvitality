@@ -193,7 +193,19 @@ try {
     assert(await gates.getByRole('button',{name:/Review & sign/}).isDisabled());
     assert((await gates.locator('.state-pill').textContent()).includes('0 of 6'));
     await gates.goto(base+'/');
-    assert.equal(await gates.locator('a[href*="buy.stripe.com"]').count(),0);
+    const payInFull='https://buy.stripe.com/00w28raZXbQk0Qv7QZ5os02';
+    const stripeLinks=gates.locator('a[href*="buy.stripe.com"]');
+    assert.equal(await stripeLinks.count(),2);
+    for(const link of await stripeLinks.all()){
+      assert.equal(await link.getAttribute('href'),payInFull);
+      assert.equal(await link.getAttribute('target'),'_blank');
+      assert((await link.getAttribute('rel')||'').includes('noopener'));
+      const label=await link.textContent();
+      assert(label.includes('570'));
+      assert(!label.includes('297'));
+      assert(!label.includes('850'));
+    }
+    assert.equal(await gates.locator('a[href*="buy.stripe.com"]:has-text("$297"), a[href*="buy.stripe.com"]:has-text("$850")').count(),0);
     const primaryLinks=gates.locator('.nav-links .button, .hero .actions .button:not(.button-outline), .offer-line .text-link, .contact-primary .button, .mobile-actions .button:not(.button-outline)');
     assert.equal(await primaryLinks.count(),5);
     for(const link of await primaryLinks.all()) assert.equal(await link.getAttribute('href'),'/apply');
