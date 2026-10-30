@@ -194,6 +194,11 @@ try {
     assert((await gates.locator('.state-pill').textContent()).includes('0 of 6'));
     await gates.goto(base+'/');
     assert.equal(await gates.locator('a[href*="buy.stripe.com"]').count(),0);
+    const payInFull=gates.getByRole('link',{name:/Apply, then pay in full/});
+    assert.equal(await payInFull.count(),1);
+    assert.equal(await payInFull.getAttribute('href'),'/apply');
+    assert((await gates.locator('#pricing').textContent()).includes('$570'));
+    assert((await gates.locator('#pricing').textContent()).includes('Pay-in-full link is sent after your fit consultation.'));
     const primaryLinks=gates.locator('.nav-links .button, .hero .actions .button:not(.button-outline), .offer-line .text-link, .contact-primary .button, .mobile-actions .button:not(.button-outline)');
     assert.equal(await primaryLinks.count(),5);
     for(const link of await primaryLinks.all()) assert.equal(await link.getAttribute('href'),'/apply');

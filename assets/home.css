@@ -60,3 +60,22 @@
 .hero-calc:hover{background:#28251e;color:var(--ink);text-decoration:none}
 .hero-calc span{font-size:16px;font-weight:400;line-height:1}
 .hero-calc+.helper{margin-top:12px}
+
+/* 12-week program: fit notes, founding rates and the four-step path. */
+.fit-split{display:grid;grid-template-columns:1fr 1fr;gap:18px;margin-top:28px}
+.fit-split article{border:1px solid var(--line);border-radius:6px;background:#171b15;padding:22px 22px 20px}
+.fit-split h3{font-size:20px;margin-bottom:12px}
+.fit-split ul{margin:0;padding-left:18px;color:var(--muted);font-size:15px;line-height:1.6}
+.fit-split li+li{margin-top:8px}
+.rate-options{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+.rate-card{display:flex;flex-direction:column;border:1px solid var(--line);border-radius:6px;background:#171b15;padding:18px 18px 16px}
+.rate-card .pricing-rate{margin:0}
+.rate-card>p:not(.pricing-rate){margin-top:10px;font-size:14px;line-height:1.65;color:var(--muted)}
+.rate-card .button,.rate-card .text-link{margin-top:16px;align-self:flex-start}
+.rate-card .button{min-height:48px;width:auto}
+.later-rate{margin-top:16px}
+.pricing-action p{max-width:460px}
+.steps-grid{grid-template-columns:repeat(4,minmax(0,1fr))}
+.steps-grid .contact-card h3{font-size:22px}
+@media(max-width:1050px){.fit-split,.rate-options,.steps-grid{grid-template-columns:1fr 1fr}}
+@media(max-width:760px){.fit-split,.rate-options,.steps-grid{grid-template-columns:1fr}.rate-card .button,.rate-card .text-link{align-self:stretch;justify-content:space-between}}

@@ -77,7 +77,7 @@ function renderReview() {
   const groups = [
     ['Your start', 0, [['name', 'Name'], ['email', 'Email'], ['instagram', 'Instagram'], ['adult', 'Adult confirmation']]],
     ['Your goals', 1, [['goal', 'Main goal'], ['barrier', 'Biggest obstacle'], ['readiness', 'Preferred start timing']]],
-    ['Your support', 2, [['budget', '$199/month'], ['experience', 'Starting point'], ['days', 'Days per week'], ['routine', 'Current routine'], ['equipment', 'Training space'], ['schedule', 'Schedule'], ['nutrition', 'General eating-habit support'], ['reason', 'Why coaching now']]],
+    ['Your support', 2, [['budget', 'Coaching rate'], ['experience', 'Starting point'], ['days', 'Days per week'], ['routine', 'Current routine'], ['equipment', 'Training space'], ['schedule', 'Schedule'], ['nutrition', 'General eating-habit support'], ['reason', 'Why coaching now']]],
   ];
   const review = document.querySelector('#review');
   review.replaceChildren();
