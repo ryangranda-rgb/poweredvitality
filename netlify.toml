@@ -12,3 +12,8 @@
   targetPort = 8765
   port = 8888
   framework = "#custom"
+
+[[redirects]]
+  from = "/privacy"
+  to = "/privacy-policy"
+  status = 301
