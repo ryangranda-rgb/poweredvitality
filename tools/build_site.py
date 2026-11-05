@@ -8,7 +8,7 @@ ROOT = Path(__file__).resolve().parent.parent
 DEST = ROOT / 'dist'
 PAGES = ['index.html', 'apply.html', 'what-you-get.html', 'start.html',
          'application-confirmation.html', 'onboard.html', 'application-privacy.html',
-         'privacy-policy.html', 'terms-and-conditions.html', 'refund-policy.html', 'disclaimer.html']
+         'privacy-policy.html', 'terms-and-conditions.html', 'terms.html', 'refund-policy.html', 'disclaimer.html']
 
 def build():
     config = (ROOT / 'assets/application-config.js').read_text()
