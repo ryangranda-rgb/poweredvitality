@@ -1,0 +1,7 @@
+.form-error{margin-bottom:24px;padding:16px;border:1px solid #dfad8e;background:#34251f;color:#f6d9c7}
+.form-error p{margin:0}.field .error{margin-top:8px;font-size:16px;color:#f6c7b6}
+.field.invalid input,.field.invalid select{border:2px solid #dfad8e}
+.text-button{padding:0;border:0;background:none;color:inherit;text-decoration:underline;text-underline-offset:4px;font-size:inherit;min-height:44px}
+.application-success{padding-block:12px}.application-success h2{font-size:32px;margin-bottom:20px}.application-success p{margin-bottom:20px;color:var(--muted)}
+.application-preview .button:disabled{opacity:.65;cursor:not-allowed}
+.application-preview [hidden],.private-notice[hidden]{display:none!important}

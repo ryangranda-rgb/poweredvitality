@@ -3,9 +3,12 @@ from http.server import ThreadingHTTPServer, SimpleHTTPRequestHandler
 from pathlib import Path
 import os
 
-ROOT = Path(__file__).resolve().parent.parent
+ROOT = Path(os.environ.get('PV_PREVIEW_ROOT', Path(__file__).resolve().parent.parent)).resolve()
 
 class PreviewHandler(SimpleHTTPRequestHandler):
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, directory=str(ROOT), **kwargs)
+
     def do_GET(self):
         path = self.path.split('?', 1)[0].split('#', 1)[0]
         # Never expose source control, internal documentation or tooling.
@@ -20,6 +23,6 @@ class PreviewHandler(SimpleHTTPRequestHandler):
         self.send_error(503, 'Preview only: no applications accepted')
 
 if __name__ == '__main__':
-    os.chdir(ROOT)
-    print('Powered Vitality local preview: http://127.0.0.1:8765/', flush=True)
-    ThreadingHTTPServer(('127.0.0.1', 8765), PreviewHandler).serve_forever()
+    port = int(os.environ.get('PV_PREVIEW_PORT', '8765'))
+    print(f'Granda Strength local preview: http://127.0.0.1:{port}/', flush=True)
+    ThreadingHTTPServer(('127.0.0.1', port), PreviewHandler).serve_forever()

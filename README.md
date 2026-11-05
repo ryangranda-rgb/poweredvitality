@@ -1,17 +1,17 @@
-# Powered Vitality mobile flow proposal
+# Granda Strength public website
 
-An isolated feature branch based on the existing site's verified production source, using static HTML/CSS/JavaScript without a framework or app download.
+The approved responsive coaching site uses static HTML, self-hosted Barlow fonts and local photography. Production is https://grandastrength.netlify.app. Netlify builds `main` with `python3 tools/build_site.py` and publishes only `dist/`.
 
-Open the local preview at `http://127.0.0.1:8765/` while the preview server is running. Routes: `/apply`, `/start`, `/onboard`.
+The application defaults to simulation. Deploy-preview and branch-deploy contexts always simulate and strip Netlify registration. Only `CONTEXT=production PV_APPLICATION_MODE=netlify` produces real application capture. Payment, enrollment and private intake remain separate; consultation invitations are sent personally by Ryan.
 
-Run from the repository root:
+## Local checks
 
 ```sh
-python3 tools/preview_server.py
+python3 tools/build_site.py
+python3 tools/verify_release.py
+node tests/application-runtime.mjs
 ```
 
-The server binds only to `127.0.0.1`. The static preview server is used because no Netlify CLI is available locally; it does not emulate Netlify Forms. The application defaults to preview-only and makes no submission request. Nothing is sent, signed, approved or charged.
+For a production artifact, run `CONTEXT=production PV_APPLICATION_MODE=netlify python3 tools/build_site.py`. Serve a built artifact with `PV_PREVIEW_ROOT=/absolute/path/to/dist PV_PREVIEW_PORT=8768 python3 tools/preview_server.py`. This server binds loopback and rejects all POSTs. The older mobile-flow and production-build browser scripts document the retired four-step application and are not current acceptance tests.
 
-Build the bounded publish artifact with `python3 tools/build_site.py`; `netlify.toml` proposes publishing `dist`, excluding historical source, docs, tests and tooling. No deployment is performed by the build.
-
-Read [docs/ACTIVATION.md](docs/ACTIVATION.md) before enabling any live behavior. Full legal pages remain pending review.
+Read docs/RELEASE-2026-11-04.md for integration details and verification limits. No secrets belong in this repository; .netlify and dist remain ignored.

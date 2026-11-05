@@ -1,7 +1,7 @@
-// Public settings only. This preview never transmits application data.
-// Activation requires the checklist in docs/ACTIVATION.md; payment stays separate.
+// Public settings only. Build contexts select live capture or local simulation.
+// Branch/preview builds always simulate; payment and enrollment remain separate.
 export const applicationConfig = Object.freeze({
-  submissionMode: 'preview', // Approved activation may change this to 'netlify'.
+  submissionMode: 'preview', // The explicit production build selects 'netlify'.
   formName: 'coaching-application',
   postTarget: '/apply',
   timeoutMs: 15000,

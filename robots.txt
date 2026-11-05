@@ -1,0 +1,5 @@
+User-agent: *
+Allow: /
+Disallow: /apply
+Disallow: /onboard
+Sitemap: https://grandastrength.netlify.app/sitemap.xml
