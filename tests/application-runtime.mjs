@@ -36,7 +36,7 @@ function createApp({ mode = 'netlify', outcome = '200', storage = new Map(), una
     if (id) nodes.set(id, node);
     return node;
   };
-  for (const id of ['application','submit','clear','form-error','form-error-text','draft-help','application-privacy-before','success','success-eyebrow','success-title','success-copy','preview-note']) element(id);
+  for (const id of ['application','submit','submit-label','clear','form-error','form-error-text','draft-help','application-privacy-before','success','success-eyebrow','success-title','success-copy','preview-note']) element(id);
   const form = nodes.get('application');
   form.elements = fieldDefinitions.map(definition => Object.assign(element(definition.id), definition, { value: definition.value, disabled: !['hidden','bot-field'].includes(definition.type), options: definition.options.map(option => ({...option})) }));
   for (const control of form.elements) {

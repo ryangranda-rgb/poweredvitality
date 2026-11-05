@@ -3,6 +3,7 @@ import { applicationConfig as config } from './application-config.js';
 // One-page application. Only bounded noncontact choices are saved in this tab.
 const form = document.querySelector('#application');
 const submit = document.querySelector('#submit');
+const submitLabel = document.querySelector('#submit-label');
 const clear = document.querySelector('#clear');
 const errorBox = document.querySelector('#form-error');
 const errorText = document.querySelector('#form-error-text');
@@ -78,7 +79,7 @@ function setBusy(value) {
   fields.forEach(control => { control.disabled = value; });
   clear.disabled = value;
   submit.disabled = value || needsReceiptCheck || finished;
-  submit.textContent = value ? (config.submissionMode === 'preview' ? 'Checking preview…' : 'Sending…') : needsReceiptCheck ? 'Contact Ryan before resubmitting' : config.submissionMode === 'preview' ? 'Preview application ↗' : 'Send application ↗';
+  submitLabel.textContent = value ? (config.submissionMode === 'preview' ? 'Checking preview…' : 'Sending…') : needsReceiptCheck ? 'Contact Ryan before resubmitting' : config.submissionMode === 'preview' ? 'Preview application' : 'Send application';
 }
 async function deliver(payload) {
   if (config.submissionMode === 'preview') return { preview: true };
