@@ -29,12 +29,17 @@
         markIn(entry.target);
         io.unobserve(entry.target);
       }
-    }, { rootMargin: '0px 0px -8% 0px', threshold: 0.12 });
+    }, { rootMargin: '0px 0px -6% 0px', threshold: 0.05 });
 
     for (const node of revealNodes) {
       delayVar(node);
+      // Hero load sequence should not wait on intersection — CTAs sit near the fold.
+      if (hero && hero.contains(node)) {
+        markIn(node);
+        continue;
+      }
       const rect = node.getBoundingClientRect();
-      if (rect.top < window.innerHeight * 0.92) markIn(node);
+      if (rect.top < window.innerHeight && rect.bottom > 0) markIn(node);
       else io.observe(node);
     }
   } else {
